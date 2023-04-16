@@ -24,18 +24,17 @@ int main() {
 
   while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
 
-  auto duration_since_epoch =
-      system_clock::now()
-          .time_since_epoch();  // 从1970-01-01 00:00:00到当前时间点的时长
+  auto start_time = system_clock::now();
 
   req = rpc->alloc_msg_buffer_or_die(kMsgSize);
   resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
 
   rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func, nullptr);
   rpc->run_event_loop(100);
+  auto end_time = system_clock::now();
   auto microseconds_since_epoch =
-      duration_cast<microseconds>(duration_since_epoch)
+      duration_cast<microseconds>(end_time - start_time)
           .count();  // 将时长转换为微秒数
-  std::cout << microseconds_since_epoch.count() << std::endl;
+  std::cout << microseconds_since_epoch << std::endl;
   delete rpc;
 }
