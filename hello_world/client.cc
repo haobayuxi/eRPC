@@ -12,7 +12,7 @@ erpc::MsgBuffer req;
 erpc::MsgBuffer resp;
 
 void cont_func(void *, void *start) {
-  auto start_time = reinterpret_cast<system_clock::time_point>(start);
+  auto start_time = *reinterpret_cast<system_clock::time_point>(start);
   auto end_time = system_clock::now();
   auto microseconds_since_epoch =
       duration_cast<microseconds>(end_time - start_time)
