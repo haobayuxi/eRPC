@@ -1,3 +1,7 @@
+#include <chrono>
+#include <ctime>
+#include <iostream>
+
 #include "common.h"
 erpc::Rpc<erpc::CTransport> *rpc;
 erpc::MsgBuffer req;
@@ -18,11 +22,18 @@ int main() {
 
   while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
 
+  auto duration_since_epoch =
+      system_clock::now()
+          .time_since_epoch();  // 从1970-01-01 00:00:00到当前时间点的时长
+
   req = rpc->alloc_msg_buffer_or_die(kMsgSize);
   resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
 
   rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func, nullptr);
   rpc->run_event_loop(100);
-
+  auto microseconds_since_epoch =
+      duration_cast<microseconds>(duration_since_epoch)
+          .count();  // 将时长转换为微秒数
+  std::out << microseconds_since_epoch << endl;
   delete rpc;
 }
