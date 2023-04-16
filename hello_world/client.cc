@@ -36,6 +36,6 @@ int main() {
   auto microseconds_since_epoch =
       duration_cast<microseconds>(duration_since_epoch)
           .count();  // 将时长转换为微秒数
-  std::cout << microseconds_since_epoch << std::endl;
+  std::cout << microseconds_since_epoch.count() << std::endl;
   delete rpc;
 }
