@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include <chrono>
 #include <ctime>
 #include <iostream>
@@ -33,7 +35,8 @@ int main() {
   auto microseconds_since_epoch =
       duration_cast<microseconds>(end_time - start_time)
           .count();  // 将时长转换为微秒数
-  // std::cout << microseconds_since_epoch <<std::endl;
+  std::cout << microseconds_since_epoch << std::endl;
+  sleep(1000);
 
   delete rpc;
 }
