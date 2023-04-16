@@ -2,6 +2,8 @@
 #include <ctime>
 #include <iostream>
 
+using namespace std::chrono;
+
 #include "common.h"
 erpc::Rpc<erpc::CTransport> *rpc;
 erpc::MsgBuffer req;
@@ -34,6 +36,6 @@ int main() {
   auto microseconds_since_epoch =
       duration_cast<microseconds>(duration_since_epoch)
           .count();  // 将时长转换为微秒数
-  std::out << microseconds_since_epoch << endl;
+  std::out << microseconds_since_epoch << std::endl;
   delete rpc;
 }
