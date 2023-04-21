@@ -13,7 +13,7 @@ erpc::MsgBuffer resp;
 int session_num;
 int count = 0;
 
-class ServerContext : public BasicAppContex {
+class ClientContext : public BasicAppContex {
  public:
   size_t start_tsc_;
 }
