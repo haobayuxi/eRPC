@@ -42,7 +42,7 @@ int main() {
                          reinterpret_cast<void *>(&start_time));
   }
 
-  rpc->run_event_loop(1000);
+  rpc->run_event_loop(10000);
 
   sleep(1);
 
