@@ -376,7 +376,7 @@ endif()
 # Using link-time optimization sometimes requires building with sources instead
 # of liberpc. See the hello world example's Makefile for an example of
 # compiling with liberpc.
-add_executable(${APP} apps/${APP}/${APP}.cc ${APP_ADDITIONAL_SOURCES} ${SOURCES})
+# add_executable(${APP} apps/${APP}/${APP}.cc ${APP_ADDITIONAL_SOURCES} ${SOURCES})
 
 # if(PERF)
 #   target_compile_options(${APP} PRIVATE "-flto")
