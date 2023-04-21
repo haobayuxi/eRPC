@@ -36,7 +36,7 @@ int main() {
 
   req = rpc->alloc_msg_buffer_or_die(kMsgSize);
   resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 10; i++) {
     auto start_time = system_clock::now();
     rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func,
                          reinterpret_cast<void *>(&start_time));
