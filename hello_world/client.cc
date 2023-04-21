@@ -34,7 +34,6 @@ int main() {
 
   while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
 
-  auto start_time = system_clock::now();
   req = rpc->alloc_msg_buffer_or_die(kMsgSize);
   resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
   for (int i = 0; i < 10; i++) {
