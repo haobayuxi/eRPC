@@ -16,7 +16,7 @@ int count = 0;
 class ClientContext : public BasicAppContex {
  public:
   size_t start_tsc_;
-}
+};
 
 void cont_func(void *_context, void *) {
   auto *c = static_cast<ClientContext *>(_context);
