@@ -24,12 +24,12 @@ void cont_func(void *_context, void *) {
       erpc::to_usec(erpc::rdtsc() - c->start_tsc_, c->rpc_->get_freq_ghz());
   std::cout << req_lat_us << std::endl;
   printf("%s\n", resp.buf_);
-  c.start_tsc_ = erpc::rdtsc();
+  c->start_tsc_ = erpc::rdtsc();
   count += 1;
   if (count > 10) {
     return;
   }
-  c.rpc_->enqueue_request(session_num, kReqType, &req, &resp, cont_func, );
+  c->rpc_->enqueue_request(session_num, kReqType, &req, &resp, cont_func, );
 }
 void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *){};
 int main() {
