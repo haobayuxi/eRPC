@@ -41,8 +41,9 @@ int main() {
     rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func,
                          reinterpret_cast<void *>(&start_time));
   }
-
-  rpc->run_event_loop(10000);
+  while (1) {
+    rpc->run_event_loop(10000);
+  }
 
   sleep(1);
 
