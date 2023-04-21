@@ -13,9 +13,10 @@ erpc::MsgBuffer resp;
 int session_num;
 int count = 0;
 
-class ClientContext : public BasicAppContex {
+class ClientContext {
  public:
   size_t start_tsc_;
+  erpc::Rpc<erpc::CTransport> *rpc_ = nullptr;
 };
 
 void cont_func(void *_context, void *) {
