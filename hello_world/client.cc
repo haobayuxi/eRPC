@@ -26,13 +26,13 @@ void cont_func(void *, void *start) {
           .count();  // 将时长转换为微秒数
   std::cout << microseconds_since_epoch << std::endl;
   printf("%s\n", resp.buf_);
-  auto start = system_clock::now();
+  auto start1 = system_clock::now();
   count += 1;
   if (count > 10) {
     return;
   }
   rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func,
-                       reinterpret_cast<void *>(&start));
+                       reinterpret_cast<void *>(&start1));
 }
 
 void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
