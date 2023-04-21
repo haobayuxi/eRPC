@@ -7,42 +7,39 @@
 using namespace std::chrono;
 
 #include "common.h"
-erpc::Rpc<erpc::CTransport> *rpc;
+// erpc::Rpc<erpc::CTransport> *rpc;
 erpc::MsgBuffer req;
 erpc::MsgBuffer resp;
 int session_num;
 int count = 0;
 
-// class Context {
-//   public:
+class ServerContext : public BasicAppContex {
+ public:
+  size_t start_tsc_;
+}
 
-// }
-
-void cont_func(void *, void *start) {
-  auto start_time = *reinterpret_cast<system_clock::time_point *>(start);
-  auto end_time = system_clock::now();
-  auto microseconds_since_epoch =
-      duration_cast<microseconds>(end_time - start_time)
-          .count();  // 将时长转换为微秒数
-  std::cout << microseconds_since_epoch << std::endl;
+void cont_func(void *_context, void *) {
+  auto *c = static_cast<ClientContext *>(_context);
+  const double req_lat_us =
+      erpc::to_usec(erpc::rdtsc() - c->start_tsc_, c->rpc_->get_freq_ghz());
+  std::cout << req_lat_us << std::endl;
   printf("%s\n", resp.buf_);
-  auto start1 = system_clock::now();
+  c.start_tsc_ = erpc::rdtsc();
   count += 1;
   if (count > 10) {
     return;
   }
-  rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func,
-                       reinterpret_cast<void *>(&start1));
+  c.rpc_->enqueue_request(session_num, kReqType, &req, &resp, cont_func, );
 }
-
-void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
-
+void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *){};
 int main() {
   std::string client_uri = kClientHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(client_uri);
-
-  rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, sm_handler);
-
+  ClientContext c;
+  // rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, sm_handler);
+  erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
+                                  sm_handler);
+  c.rpc_ = &rpc;
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   session_num = rpc->create_session(server_uri, 0);
 
@@ -51,9 +48,8 @@ int main() {
   req = rpc->alloc_msg_buffer_or_die(kMsgSize);
   resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
   // for (int i = 0; i < 10; i++) {
-  auto start_time = system_clock::now();
-  rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func,
-                       reinterpret_cast<void *>(&start_time));
+  c.start_tsc_ = erpc::rdtsc();
+  rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func, NULL);
   // }
   while (1) {
     rpc->run_event_loop(10000);
