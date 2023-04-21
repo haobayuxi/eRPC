@@ -37,9 +37,8 @@ int main() {
   std::string client_uri = kClientHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(client_uri);
   ClientContext c;
-  erpc::Rpc<erpc::CTransport> *rpc;
-  = new erpc::Rpc<erpc::CTransport>(&nexus, static_cast<void *>(&c), 0,
-                                    sm_handler);
+  erpc::Rpc<erpc::CTransport> *rpc = new erpc::Rpc<erpc::CTransport>(
+      &nexus, static_cast<void *>(&c), 0, sm_handler);
   // erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
   // sm_handler, 1);
   c.rpc_ = rpc;
