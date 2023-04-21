@@ -29,9 +29,9 @@ void cont_func(void *_context, void *) {
   if (count > 10) {
     return;
   }
-  c->rpc_->enqueue_request(session_num, kReqType, &req, &resp, cont_func, );
+  c->rpc_->enqueue_request(session_num, kReqType, &req, &resp, cont_func, NULL);
 }
-void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *){};
+void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
 int main() {
   std::string client_uri = kClientHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(client_uri);
