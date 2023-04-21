@@ -38,8 +38,8 @@ int main() {
   erpc::Nexus nexus(client_uri);
   ClientContext c;
   // rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, sm_handler);
-  erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
-                                  sm_handler);
+  erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0, sm_handler,
+                                  1);
   c.rpc_ = &rpc;
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   session_num = rpc->create_session(server_uri, 0);
