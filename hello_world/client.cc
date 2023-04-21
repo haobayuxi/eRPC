@@ -11,6 +11,7 @@ erpc::Rpc<erpc::CTransport> *rpc;
 erpc::MsgBuffer req;
 erpc::MsgBuffer resp;
 int session_num;
+int count = 0;
 
 // class Context {
 //   public:
@@ -25,9 +26,13 @@ void cont_func(void *, void *start) {
           .count();  // 将时长转换为微秒数
   std::cout << microseconds_since_epoch << std::endl;
   printf("%s\n", resp.buf_);
-  start_time = system_clock::now();
+  auto start = system_clock::now();
+  count += 1;
+  if (count > 10) {
+    return;
+  }
   rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func,
-                       reinterpret_cast<void *>(&start_time));
+                       reinterpret_cast<void *>(&start));
 }
 
 void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
