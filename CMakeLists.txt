@@ -378,10 +378,10 @@ endif()
 # compiling with liberpc.
 add_executable(${APP} apps/${APP}/${APP}.cc ${APP_ADDITIONAL_SOURCES} ${SOURCES})
 
-if(PERF)
-  target_compile_options(${APP} PRIVATE "-flto")
-endif()
-target_link_libraries(${APP} ${LIBRARIES})
+# if(PERF)
+#   target_compile_options(${APP} PRIVATE "-flto")
+# endif()
+# target_link_libraries(${APP} ${LIBRARIES})
 
 # Compile hello_world apps
 add_executable(hello_server hello_world/server.cc)
