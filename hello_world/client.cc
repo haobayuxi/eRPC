@@ -10,6 +10,7 @@ using namespace std::chrono;
 erpc::Rpc<erpc::CTransport> *rpc;
 erpc::MsgBuffer req;
 erpc::MsgBuffer resp;
+int session_num;
 
 // class Context {
 //   public:
@@ -38,7 +39,7 @@ int main() {
   rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, sm_handler);
 
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
-  int session_num = rpc->create_session(server_uri, 0);
+  session_num = rpc->create_session(server_uri, 0);
 
   while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
 
