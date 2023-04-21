@@ -11,7 +11,7 @@ static constexpr size_t kMsgSize = 16;
 
 class BasicAppContext {
  public:
-  TmpStat *tmp_stat_ = nullptr;
+  //   TmpStat *tmp_stat_ = nullptr;
   erpc::Rpc<erpc::CTransport> *rpc_ = nullptr;
   erpc::FastRand fastrand_;
 
@@ -22,7 +22,7 @@ class BasicAppContext {
   bool ping_pending_ = false;  // Only one ping is allowed at a time
 
   ~BasicAppContext() {
-    if (tmp_stat_ != nullptr) delete tmp_stat_;
+    // if (tmp_stat_ != nullptr) delete tmp_stat_;
   }
 
   // Use Lemire's trick to get a random session number from session_num_vec
