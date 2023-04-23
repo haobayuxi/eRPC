@@ -55,9 +55,16 @@ class ValidationRes {
 class Commit {
  public:
   uint64_t txn_id;
+  std::vector<uint64_t> write_set;
 };
 
 class CommitRes {
  public:
   bool success;
 };
+
+class Abort {
+ public:
+  uint64_t txn_id;
+  std::vector<uint64_t> write_set;
+}

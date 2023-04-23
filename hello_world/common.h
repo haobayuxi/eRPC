@@ -24,6 +24,12 @@ enum DbType {
   Tatp,
 };
 
+enum SystemType {
+  OCC = 1,
+  Meerkat,
+  Yuxi,
+};
+
 enum TxnStatus {
   Execution = 0,
   Validation,
