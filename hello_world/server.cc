@@ -14,13 +14,13 @@ int main() {
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(server_uri);
   nexus.register_req_func(kReqType, req_handler);
-  int num_threads = 10;
+  size_t num_threads = 10;
   std::vector<std::thread> threads(num_threads);
   std::vector<MemServer *> mem_server_handlers;
   for (size_t i = 0; i < num_threads; i++) {
     MemServer *handler = new MemServer();
     threads[i] = std::thread(handler, &nexus);
-    erpc::bind_to_core(threads[i], FLAGS_numa_node, i);
+    erpc::bind_to_core(threads[i], 0, i);
   }
 
   for (size_t i = 0; i < num_threads; i++) threads[i].join();
