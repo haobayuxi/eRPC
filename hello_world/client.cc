@@ -4,6 +4,8 @@
 #include <ctime>
 #include <iostream>
 
+#include "coordinator/coordinator.h"
+
 using namespace std::chrono;
 
 #include "common.h"
@@ -36,22 +38,27 @@ void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
 int main() {
   std::string client_uri = kClientHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(client_uri);
-  ClientContext c;
-  erpc::Rpc<erpc::CTransport> *rpc = new erpc::Rpc<erpc::CTransport>(
-      &nexus, static_cast<void *>(&c), 0, sm_handler);
-  // erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
-  // sm_handler, 1);
-  c.rpc_ = rpc;
-  std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
-  session_num = rpc->create_session(server_uri, 0);
 
-  while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
+  vector<RemoteNode> remotes;
+  remotes.push_back(RemoteNode{.ip = kServerHostname, .port = kUDPPort});
+  Coordinator *c = new Coordinator(0, 1, 10, remotes);
+  run_coordinator(c);
+  // ClientContext c;
+  // erpc::Rpc<erpc::CTransport> *rpc = new erpc::Rpc<erpc::CTransport>(
+  //     &nexus, static_cast<void *>(&c), 0, sm_handler);
+  // // erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
+  // // sm_handler, 1);
+  // c.rpc_ = rpc;
+  // std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
+  // session_num = rpc->create_session(server_uri, 0);
 
-  req = rpc->alloc_msg_buffer_or_die(kMsgSize);
-  resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
-  // for (int i = 0; i < 10; i++) {
-  c.start_tsc_ = erpc::rdtsc();
-  rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func, NULL);
+  // while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
+
+  // req = rpc->alloc_msg_buffer_or_die(kMsgSize);
+  // resp = rpc->alloc_msg_buffer_or_die(kMsgSize);
+  // // for (int i = 0; i < 10; i++) {
+  // c.start_tsc_ = erpc::rdtsc();
+  // rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func, NULL);
   // }
   while (1) {
     rpc->run_event_loop(10000);

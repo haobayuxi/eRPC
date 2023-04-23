@@ -28,8 +28,7 @@ void run_coordinator(Coordinator *c) {
   }
 }
 
-Coordinator::Coordinator(int id_, uint64_t t_id_, int server_num_,
-                         int server_threads_,
+Coordinator::Coordinator(int id_, int server_num_, int server_threads_,
                          vector<RemoteNode> server_addrs_) {
   id = id_;
   t_id = t_id_;

@@ -9,7 +9,7 @@ using namespace std;
 
 class Coordinator {
  public:
-  Coordinator(int id_, uint64_t t_id_, int server_num_, int server_threads_,
+  Coordinator(int id_, int server_num_, int server_threads_,
               vector<RemoteNode> server_addrs_);
   int id;
   uint64_t t_id;
