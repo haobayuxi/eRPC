@@ -29,7 +29,7 @@ void cont_func(void *_context, void *_session) {
                            reinterpret_cast<void *>((size_t)session_num));
 }
 
-void handle_execute_res(void *_context, void *_session) {
+void Coordinator::handle_execute_res(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto session = reinterpret_cast<size_t>(_session);
   c->t += 1;
@@ -38,20 +38,22 @@ void handle_execute_res(void *_context, void *_session) {
   }
   int session_num = c->sessions[0][c->t];
   printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
-  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
+  //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
+  //   cont_func,)
 }
 
-void handle_validate_res(void *_context, void *_session) {
-  auto *c = static_cast<Coordinator *>(_context);
-  auto session = reinterpret_cast<size_t>(_session);
-  c->t += 1;
-  if (c->t >= 10) {
-    return;
-  }
-  int session_num = c->sessions[0][c->t];
-  printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
-  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
-}
+// void Coordinator::handle_validate_res(void *_context, void *_session) {
+//   auto *c = static_cast<Coordinator *>(_context);
+//   auto session = reinterpret_cast<size_t>(_session);
+//   c->t += 1;
+//   if (c->t >= 10) {
+//     return;
+//   }
+//   int session_num = c->sessions[0][c->t];
+//   printf("session = %ld %d, value = %s\n", session, session_num,
+//   c->resp.buf_); c->rpc_->enqueue_request(session_num, kReqType, &c->req,
+//   &c->resp, cont_func,
+// }
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(c), 0,
@@ -108,7 +110,12 @@ void Coordinator::txn_begin() {
 
   // init start_time
 }
-void Coordinator::txn_execute() { auto exe_request = new Execution(); }
+void Coordinator::txn_execute() {
+  auto exe_request = new Execution();
+  exe_request->txn_id = t_id;
+  exe_request->read_set = read_set;
+  exe_request->write_set = write_set;
+}
 void Coordinator::txn_validate() {}
 void Coordinator::txn_abort() {}
 void Coordinator::txn_commit() {}
