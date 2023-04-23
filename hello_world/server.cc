@@ -20,11 +20,7 @@ void reqs_handler(erpc::ReqHandle *req_handle, void *_handler) {
 int main() {
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(server_uri);
-  auto t = new Test();
 
-  auto t1 = new Test1();
-  t->tfunc();
-  t1->tfunc();
   // nexus.register_req_func(kReqType, reqs_handler);
   // size_t num_threads = 10;
   // std::vector<std::thread> threads(num_threads);
