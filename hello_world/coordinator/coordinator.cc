@@ -19,29 +19,30 @@ void coordinator_sm_handler(int session_num, erpc::SmEventType sm_event_type,
 void cont_func(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto *session = static_cast<size_t *>(_session);
-  printf("session = %ld, value = %s\n", *session, c->resp[*session].buf_);
+  t += 1;
+  if (t >= 10) {
+    return
+  }
+  int session_num = c->sessions[0][t];
+  printf("session = %ld, value = %s\n", *session, c->resp.buf_);
+  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
+                           reinterpret_cast<void *>(&session_num));
 }
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(c), 0,
                                   coordinator_sm_handler, 0);
   c->rpc_ = &rpc;
-  for (size_t i = 0; i < c->server_threads; i++) {
-    c->req.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
-    c->resp.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
-  }
+  //   for (size_t i = 0; i < c->server_threads; i++) {
+  c->req = rpc.alloc_msg_buffer_or_die(Max_Msg_Size);
+  c->resp = rpc.alloc_msg_buffer_or_die(Max_Msg_Size);
+  //   }
 
   c->init_rpc();
   c->start_tsc_ = erpc::rdtsc();
-  for (size_t i = 0; i < c->server_num; i++) {
-    for (size_t j = 0; j < c->server_threads; j++) {
-      int session_num = c->sessions[i][j];
-
-      c->rpc_->enqueue_request(session_num, kReqType, &c->req[j], &c->resp[j],
-                               cont_func,
-                               reinterpret_cast<void *>(&session_num));
-    }
-  }
+  int session_num = c->sessions[0][0];
+  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
+                           reinterpret_cast<void *>(&session_num));
   while (1) {
     c->rpc_->run_event_loop(10000);
   }
@@ -54,6 +55,7 @@ Coordinator::Coordinator(int id_, int server_num_, int server_threads_,
   server_threads = server_threads_;
   server_addrs = server_addrs_;
   num_sm_resps = 0;
+  t = 0;
 }
 
 void Coordinator::init_rpc() {
