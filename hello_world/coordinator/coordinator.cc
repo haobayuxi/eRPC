@@ -114,7 +114,3 @@ void Coordinator::txn_execute() {}
 void Coordinator::txn_validate() {}
 void Coordinator::txn_abort() {}
 void Coordinator::txn_commit() {}
-
-void Coordinator::handle_execution_resp(struct ExecutionRes res) {
-  //
-}
