@@ -19,25 +19,4 @@ class TupleMeta {
   void release_lock(uint64_t txn_id);
 };
 
-bool TupleMeta::is_locked() {
-  if (lock_txn_id == 0) {
-    return false;
-  }
-  return true;
-}
-
-bool TupleMeta::set_lock(uint64_t txn_id) {
-  if (lock_txn_id == 0) {
-    lock_txn_id = txn_id;
-    return true;
-  }
-  return false;
-}
-
-void TupleMeta::release_lock(uint64_t txn_id) {
-  if (lock_txn_id == txn_id) {
-    lock_txn_id = 0;
-  }
-}
-
 #endif
