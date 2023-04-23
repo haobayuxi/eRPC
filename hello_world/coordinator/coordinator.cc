@@ -19,11 +19,11 @@ void coordinator_sm_handler(int session_num, erpc::SmEventType sm_event_type,
 void cont_func(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto *session = static_cast<size_t *>(_session);
-  t += 1;
-  if (t >= 10) {
+  c->t += 1;
+  if (c->t >= 10) {
     return
   }
-  int session_num = c->sessions[0][t];
+  int session_num = c->sessions[0][c->t];
   printf("session = %ld, value = %s\n", *session, c->resp.buf_);
   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
                            reinterpret_cast<void *>(&session_num));
