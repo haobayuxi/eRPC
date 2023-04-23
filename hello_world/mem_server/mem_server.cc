@@ -4,7 +4,7 @@
 #include <iostream>
 
 void run_server(MemServer *s, erpc::Nexus *nexus) {
-  std << out << "thread id = " << s->thread_id << std::endl;
+  std::cout << "thread id = " << s->thread_id << std::endl;
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(s), s->thread_id,
                                   NULL);
   s->rpc_ = &rpc;
