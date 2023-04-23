@@ -19,11 +19,11 @@ void coordinator_sm_handler(int session_num, erpc::SmEventType sm_event_type,
 void cont_func(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto *session = static_cast<size_t *>(_session);
-  printf("session = %d, value = %s\n", *session, c->resp[*session].buf_);
+  printf("session = %ld, value = %s\n", *session, c->resp[*session].buf_);
 }
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
-  erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
+  erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(c), 0,
                                   coordinator_sm_handler, 0);
   c->rpc_ = &rpc;
   for (size_t i = 0; i < c->server_threads; i++) {
@@ -73,4 +73,5 @@ void Coordinator::init_rpc() {
   while (num_sm_resps != server_num * server_threads) {
     rpc_->run_event_loop(100);
   }
+  printf("init rpc done\n");
 }
