@@ -21,7 +21,7 @@ void cont_func(void *_context, void *_session) {
   auto *session = static_cast<size_t *>(_session);
   c->t += 1;
   if (c->t >= 10) {
-    return
+    return;
   }
   int session_num = c->sessions[0][c->t];
   printf("session = %ld, value = %s\n", *session, c->resp.buf_);
