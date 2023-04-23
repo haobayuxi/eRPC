@@ -385,9 +385,9 @@ endif()
 
 # Compile hello_world apps
 
-add_executable(hello_server  hello_world/coordinator/coordinator.cc hello_world/mem_server/mem_server.cc hello_world/server.cc)
+add_executable(hello_server   hello_world/mem_server/mem_server.cc hello_world/server.cc)
 target_link_libraries(hello_server erpc ${LIBRARIES})
-add_executable(hello_client hello_world/client.cc)
+add_executable(hello_client hello_world/coordinator/coordinator.cc hello_world/client.cc)
 target_link_libraries(hello_client erpc ${LIBRARIES})
 
 # Compile the tests

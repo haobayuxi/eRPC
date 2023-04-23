@@ -4,11 +4,11 @@
 #include <ctime>
 #include <iostream>
 
+#include "common.h"
 #include "coordinator/coordinator.h"
 
 using namespace std::chrono;
 
-#include "common.h"
 // erpc::Rpc<erpc::CTransport> *rpc;
 erpc::MsgBuffer req;
 erpc::MsgBuffer resp;
