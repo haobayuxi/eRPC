@@ -1,5 +1,9 @@
 #include "common.h"
 #include "mem_server/mem_server.h"
+#include "util/latency.h"
+#include "util/math_utils.h"
+#include "util/numautils.h"
+
 erpc::Rpc<erpc::CTransport> *rpc;
 
 void req_handler(erpc::ReqHandle *req_handle, void *) {
