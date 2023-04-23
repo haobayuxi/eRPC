@@ -26,6 +26,9 @@ void run_coordinator(Coordinator *c) {
                                cont_func, reinterpret_cast<void *> session_num);
     }
   }
+  while (1) {
+    c->rpc_->run_event_loop(10000);
+  }
 }
 
 Coordinator::Coordinator(int id_, int server_num_, int server_threads_,

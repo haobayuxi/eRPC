@@ -24,8 +24,9 @@ class Coordinator {
   //
   void init_rpc();
 
- private:
   int num_sm_resps;
+
+ private:
 };
 
 void run_coordinator(Coordinator *c);

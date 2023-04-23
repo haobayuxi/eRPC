@@ -42,7 +42,10 @@ int main() {
   erpc::Nexus nexus(client_uri);
 
   vector<RemoteNode> remotes;
-  remotes.push_back(RemoteNode{.ip = kServerHostname, .port = kUDPPort});
+  struct RemoteNode s;
+  s.ip = kServerHostname;
+  s.port = kUDPPort;
+  remotes.push_back(s);
   Coordinator *c = new Coordinator(0, 1, 10, remotes);
   run_coordinator(c);
   // ClientContext c;
@@ -62,11 +65,11 @@ int main() {
   // c.start_tsc_ = erpc::rdtsc();
   // rpc->enqueue_request(session_num, kReqType, &req, &resp, cont_func, NULL);
   // }
-  while (1) {
-    rpc->run_event_loop(10000);
-  }
+  // while (1) {
+  //   rpc->run_event_loop(10000);
+  // }
 
   sleep(1);
 
-  delete rpc;
+  // delete rpc;
 }
