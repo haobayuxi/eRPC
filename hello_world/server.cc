@@ -9,16 +9,16 @@
 void reqs_handler(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
   auto &resp = req_handle->pre_resp_msgbuf_;
-  c->rpc->resize_msg_buffer(&resp, kMsgSize);
+  c->rpc_->resize_msg_buffer(&resp, kMsgSize);
   sprintf(reinterpret_cast<char *>(resp.buf_), "hello");
   // printf("got a message\n");
-  c->rpc->enqueue_response(reqs_handler, &resp);
+  c->rpc_->enqueue_response(reqs_handler, &resp);
 }
 
 int main() {
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(server_uri);
-  nexus.register_req_func(kReqType, req_handler);
+  nexus.register_req_func(kReqType, reqs_handler);
   size_t num_threads = 1;
   std::vector<std::thread> threads(num_threads);
   for (size_t i = 0; i < num_threads; i++) {
