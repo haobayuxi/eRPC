@@ -12,7 +12,20 @@ static constexpr uint16_t kUDPPort = 31850;
 static constexpr uint8_t kReqType = 2;
 static constexpr size_t kMsgSize = 20;
 
+#define ALWAYS_INLINE inline __attribute__((always_inline))
+
 struct RemoteNode {
   std::string ip;
   uint16_t port;
+};
+
+enum DbType {
+  Micro = 1,
+  Tatp,
+};
+
+enum TxnStatus {
+  Execution = 0,
+  Validation,
+  Commit,
 };

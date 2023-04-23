@@ -29,6 +29,30 @@ void cont_func(void *_context, void *_session) {
                            reinterpret_cast<void *>((size_t)session_num));
 }
 
+void handle_execute_res(void *_context, void *_session) {
+  auto *c = static_cast<Coordinator *>(_context);
+  auto session = reinterpret_cast<size_t>(_session);
+  c->t += 1;
+  if (c->t >= 10) {
+    return;
+  }
+  int session_num = c->sessions[0][c->t];
+  printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
+  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
+}
+
+void handle_validate_res(void *_context, void *_session) {
+  auto *c = static_cast<Coordinator *>(_context);
+  auto session = reinterpret_cast<size_t>(_session);
+  c->t += 1;
+  if (c->t >= 10) {
+    return;
+  }
+  int session_num = c->sessions[0][c->t];
+  printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
+  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
+}
+
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(c), 0,
                                   coordinator_sm_handler, 0);
@@ -76,4 +100,19 @@ void Coordinator::init_rpc() {
     rpc_->run_event_loop(100);
   }
   printf("init rpc done\n");
+}
+
+void Coordinator::txn_begin() {
+  reply_num = 0;
+  // init workload
+
+  // init start_time
+}
+void Coordinator::txn_execute() { auto exe_request = new Execution(); }
+void Coordinator::txn_validate() {}
+void Coordinator::txn_abort() {}
+void Coordinator::txn_commit() {}
+
+void Coordinator::handle_execution_resp(struct ExecutionRes res) {
+  //
 }
