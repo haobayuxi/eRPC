@@ -30,10 +30,10 @@ class Coordinator {
 
 void run_coordinator(Coordinator *c);
 
-void basic_sm_handler(int session_num, erpc::SmEventType sm_event_type,
+void basic_sm_handler(erpc::SmEventType sm_event_type,
                       erpc::SmErrType sm_err_type, void *_context) {
   auto *c = static_cast<Coordinator *>(_context);
-  c->num_sm_resps_++;
+  c->num_sm_resps++;
 
   erpc::rt_assert(
       sm_err_type == erpc::SmErrType::kNoError,
