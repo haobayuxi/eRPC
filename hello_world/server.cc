@@ -23,12 +23,11 @@ int main() {
   std::vector<std::thread> threads(num_threads);
   for (size_t i = 0; i < num_threads; i++) {
     MemServer *handler = new MemServer(i);
-    // threads[i] = std::thread(run_server, handler, &nexus);
-    // erpc::bind_to_core(threads[i], 0, i);
-    run_server(handler, &nexus);
+    threads[i] = std::thread(run_server, handler, &nexus);
+    erpc::bind_to_core(threads[i], 0, i);
   }
 
-  // for (size_t i = 0; i < num_threads; i++) threads[i].join();
+  for (size_t i = 0; i < num_threads; i++) threads[i].join();
   // rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, nullptr);
   // rpc->run_event_loop(100000);
 }
