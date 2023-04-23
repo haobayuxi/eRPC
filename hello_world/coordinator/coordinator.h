@@ -18,8 +18,9 @@ class Coordinator {
   vector<RemoteNode> server_addrs;
   vector<vector<int>> sessions;
   erpc::Rpc<erpc::CTransport> *rpc_ = nullptr;
-  erpc::MsgBuffer req;
-  erpc::MsgBuffer resp;
+  vector<erpc::MsgBuffer> req;
+  vector<erpc::MsgBuffer> resp;
+  size_t start_tsc_;
   //
   void init_rpc();
 

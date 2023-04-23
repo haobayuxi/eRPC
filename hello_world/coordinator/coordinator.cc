@@ -1,13 +1,31 @@
 
 #include "coordinator.h"
 
+void cont_func(void *_context, void *_session) {
+  auto *c = static_cast<Coordinator *>(_context);
+  auto *session = static_cast<int *>(_session);
+  printf("session = %d, value = %s\n", *session, c->resp[*session].req);
+}
+
 void run_coordinator(Coordinator *c) {
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), thread_id,
-                                  basic_sm_handler, phy_port);
+                                  basic_sm_handler, NULL);
   c->rpc_ = &rpc;
-  req = rpc.alloc_msg_buffer_or_die(Max_Msg_Size);
-  resp = rpc.alloc_msg_buffer_or_die(Max_Msg_Size);
+  for (int i = 0; i < server_threads; i++) {
+    req.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
+    resp.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
+  }
+
   c->init_rpc();
+  c->start_tsc_ = erpc::rdtsc();
+  for (int i = 0; i < server_num; i++) {
+    for (int j = 0; j < server_threads; j++) {
+      int session_num = c->sessions[i][j];
+
+      c->rpc_->enqueue_request(session_num, kReqType, &req[j], &resp[j],
+                               cont_func, reinterpret_cast<void *> session_num);
+    }
+  }
 }
 
 Coordinator::Coordinator(int id_, uint64_t t_id_, int server_num_,
