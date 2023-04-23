@@ -11,15 +11,15 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
                                   basic_sm_handler, NULL);
   c->rpc_ = &rpc;
-  for (int i = 0; i < c->server_threads; i++) {
+  for (size_t i = 0; i < c->server_threads; i++) {
     c->req.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
     c->resp.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
   }
 
   c->init_rpc();
   c->start_tsc_ = erpc::rdtsc();
-  for (int i = 0; i < c->server_num; i++) {
-    for (int j = 0; j < c->server_threads; j++) {
+  for (size_t i = 0; i < c->server_num; i++) {
+    for (size_t j = 0; j < c->server_threads; j++) {
       int session_num = c->sessions[i][j];
 
       c->rpc_->enqueue_request(session_num, kReqType, &c->req[j], &c->resp[j],
@@ -42,11 +42,11 @@ Coordinator::Coordinator(int id_, int server_num_, int server_threads_,
 
 void Coordinator::init_rpc() {
   // init connect to servers
-  for (int i = 0; i < server_num; i++) {
+  for (size_t i = 0; i < server_num; i++) {
     std::string server_uri =
         server_addrs[i].ip + ":" + std::to_string(server_addrs[i].port);
     vector<int> sessions_per_server;
-    for (int j = 0; j < server_threads; j++) {
+    for (size_t j = 0; j < server_threads; j++) {
       int session_num = rpc_->create_session(server_uri, j);
       sessions_per_server.push_back(session_num);
     }
