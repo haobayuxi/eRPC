@@ -29,7 +29,7 @@ class Coordinator {
  private:
 };
 
-void run_coordinator(Coordinator *c);
+void run_coordinator(Coordinator *c, erpc::Nexus *nexus);
 
 void basic_sm_handler(erpc::SmEventType sm_event_type,
                       erpc::SmErrType sm_err_type, void *_context) {
