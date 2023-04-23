@@ -54,7 +54,7 @@ void Coordinator::init_rpc() {
     sessions.push_back(sessions_per_server);
   }
 
-  while (c.num_sm_resps != server_num * server_threads) {
-    c.rpc->run_event_loop(100);
+  while (num_sm_resps != server_num * server_threads) {
+    rpc->run_event_loop(100);
   }
 }
