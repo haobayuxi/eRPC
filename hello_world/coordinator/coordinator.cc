@@ -16,17 +16,17 @@ void coordinator_sm_handler(int session_num, erpc::SmEventType sm_event_type,
   }
 }
 
-void cont_func(void *_context, int _session) {
+void cont_func(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
-  //   auto *session = static_cast<int *>(_session);
+  auto session = reinterpret_cast<int>(_session);
   c->t += 1;
   if (c->t >= 10) {
     return;
   }
   int session_num = c->sessions[0][c->t];
-  printf("session = %d %d, value = %s\n", _session, session_num, c->resp.buf_);
+  printf("session = %d %d, value = %s\n", session, session_num, c->resp.buf_);
   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
-                           session_num);
+                           reinterpret_cast<void *>(session_num));
 }
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
@@ -42,7 +42,7 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   c->start_tsc_ = erpc::rdtsc();
   int session_num = c->sessions[0][0];
   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
-                           reinterpret_cast<void *>(&session_num));
+                           reinterpret_cast<void *>(session_num));
   while (1) {
     c->rpc_->run_event_loop(10000);
   }
