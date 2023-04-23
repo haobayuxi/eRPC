@@ -43,8 +43,8 @@ void handle_abort(erpc::ReqHandle *req_handle, void *_handler) {
 
 MemServer::MemServer(size_t _thread_id) {
   thread_id = _thread_id;
-  switch (db_type) {
-    case DbType::Micro:
-    default:
-  }
+  //   switch (db_type) {
+  //     case DbType::Micro:
+  //     default:
+  //   }
 }
