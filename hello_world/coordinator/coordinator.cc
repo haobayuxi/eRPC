@@ -9,7 +9,7 @@ void cont_func(void *_context, void *_session) {
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   erpc::Rpc<erpc::CTransport> rpc(nexus, static_cast<void *>(&c), 0,
-                                  basic_sm_handler, NULL);
+                                  coordinator_sm_handler, NULL);
   c->rpc_ = &rpc;
   for (size_t i = 0; i < c->server_threads; i++) {
     c->req.push_back(rpc.alloc_msg_buffer_or_die(Max_Msg_Size));
