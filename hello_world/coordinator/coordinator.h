@@ -1,4 +1,4 @@
-
+#pragma once
 #include "../common.h"
 #include "../msg.h"
 #include "rpc.h"
