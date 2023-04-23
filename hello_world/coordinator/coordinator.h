@@ -38,7 +38,7 @@ class Coordinator {
   void txn_commit();
 
   // handle res
-  void handle_execution_resp(struct ExecutionRes res);
+  void handle_execute_resp(void *_context, void *_session);
   int t;
   int num_sm_resps;
 

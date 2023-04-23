@@ -19,12 +19,12 @@ class Execution {
 
   static void serialize(erpc::MsgBuffer &req_msgbuf) {
     uint8_t *buf = req_msgbuf.buf_;
-    memcpy(buf, &txn_id, 8);
-    buf += 8;
-    uint32_t read_set_size = read_set.size();
-    memcpy(buf, &read_set_size, 4);
-    buf += 4;
-    for (int i = 0; i <) memcpy(buf, &txn_id, 8);
+    // memcpy(buf, &txn_id, 8);
+    // buf += 8;
+    // uint32_t read_set_size = read_set.size();
+    // memcpy(buf, &read_set_size, 4);
+    // buf += 4;
+    // for (int i = 0; i <) memcpy(buf, &txn_id, 8);
   }
 
   static void unpack(erpc::MsgBuffer &req_msgbuf) {
