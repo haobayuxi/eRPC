@@ -9,3 +9,5 @@ void run_server(MemServer *s, erpc::Nexus *nexus) {
     rpc.run_event_loop_once();
   }
 }
+
+MemServer::MemServer(size_t _thread_id) { thread_id = _thread_id; }

@@ -22,7 +22,7 @@ int main() {
   std::vector<std::thread> threads(num_threads);
   std::vector<MemServer *> mem_server_handlers;
   for (size_t i = 0; i < num_threads; i++) {
-    MemServer *handler = new MemServer();
+    MemServer *handler = new MemServer(i);
     threads[i] = std::thread(run_server, handler, &nexus);
     erpc::bind_to_core(threads[i], 0, i);
   }
