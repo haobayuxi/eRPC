@@ -18,8 +18,8 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
   //   get request
-  auto req = new Execution();
-  req->unpack(req_buff);
+  //   auto req = new Execution();
+  //   req->unpack(req_buff);
   //   get read data
 
   // lock write data

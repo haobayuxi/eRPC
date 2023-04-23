@@ -2,6 +2,7 @@
 #include "../common.h"
 #include "../workload/micro_db.h"
 #include "rpc.h"
+#include "../msg.h"
 
 class MemServer {
  public:
