@@ -12,7 +12,7 @@ void reqs_handler(erpc::ReqHandle *req_handle, void *_handler) {
   c->rpc_->resize_msg_buffer(&resp, kMsgSize);
   sprintf(reinterpret_cast<char *>(resp.buf_), "hello");
   // printf("got a message\n");
-  c->rpc_->enqueue_response(reqs_handler, &resp);
+  c->rpc_->enqueue_response(req_handler, &resp);
 }
 
 int main() {
