@@ -11,7 +11,7 @@ void reqs_handler(erpc::ReqHandle *req_handle, void *_handler) {
   auto &resp = req_handle->pre_resp_msgbuf_;
   c->rpc_->resize_msg_buffer(&resp, kMsgSize);
   sprintf(reinterpret_cast<char *>(resp.buf_),
-          "hello" + std::to_string(c->thread_id));
+          ("hello" + std::to_string(c->thread_id)).c_str());
   // printf("got a message\n");
   c->rpc_->enqueue_response(req_handle, &resp);
 }

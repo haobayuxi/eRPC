@@ -83,6 +83,7 @@
         "utility": "cpp",
         "variant": "cpp",
         "vector": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "filesystem": "cpp"
     }
 }
