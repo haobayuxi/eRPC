@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef COORDINATOR_H
+#define COORDINATOR_H
 #include "../common.h"
 #include "../msg.h"
 #include "rpc.h"
@@ -43,3 +45,5 @@ void coordinator_sm_handler(int session_num, erpc::SmEventType sm_event_type,
     throw std::runtime_error("Received unexpected SM event.");
   }
 }
+
+#endif
