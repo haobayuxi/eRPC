@@ -67,4 +67,4 @@ class AbortRequest {
  public:
   uint64_t txn_id;
   std::vector<uint64_t> write_set;
-}
+};
