@@ -4,6 +4,7 @@
 
 class MemServer {
  public:
+  MemServer(size_t _thread_id);
   int id;
   erpc::Rpc<erpc::CTransport>* rpc_;
   size_t thread_id;
