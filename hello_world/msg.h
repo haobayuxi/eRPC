@@ -11,7 +11,7 @@ struct Key {
   uint64_t key;
 };
 
-class Execution {
+class ExecutionRequest {
  public:
   uint64_t txn_id;
   std::vector<uint64_t> read_set;
@@ -40,7 +40,7 @@ class ExecutionRes {
   bool success;
 };
 
-class Validation {
+class ValidationRequest {
  public:
   uint64_t txn_id;
   std::vector<uint64_t> read_set;
@@ -52,7 +52,7 @@ class ValidationRes {
   bool success;
 };
 
-class Commit {
+class CommitRequest {
  public:
   uint64_t txn_id;
   std::vector<uint64_t> write_set;
@@ -63,7 +63,7 @@ class CommitRes {
   bool success;
 };
 
-class Abort {
+class AbortRequest {
  public:
   uint64_t txn_id;
   std::vector<uint64_t> write_set;
