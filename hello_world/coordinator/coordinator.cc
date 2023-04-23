@@ -4,7 +4,7 @@
 void cont_func(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto *session = static_cast<size_t *>(_session);
-  printf("session = %d, value = %s\n", *session, c->resp[*session].req);
+  printf("session = %d, value = %s\n", *session, c->resp[*session].buf_);
 }
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
