@@ -24,7 +24,7 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
 
       c->rpc_->enqueue_request(session_num, kReqType, &c->req[j], &c->resp[j],
                                cont_func,
-                               reinterpret_cast<void *> & session_num);
+                               reinterpret_cast<void *>(&session_num));
     }
   }
   while (1) {
