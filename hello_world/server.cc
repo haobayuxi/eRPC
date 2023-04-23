@@ -4,14 +4,15 @@
 #include "util/math_utils.h"
 #include "util/numautils.h"
 
-erpc::Rpc<erpc::CTransport> *rpc;
+// erpc::Rpc<erpc::CTransport> *rpc;
 
-void req_handler(erpc::ReqHandle *req_handle, void *) {
+void reqs_handler(erpc::ReqHandle *req_handle, void *_handler) {
+  auto *c = static_cast<MemServer *>(_handler);
   auto &resp = req_handle->pre_resp_msgbuf_;
-  rpc->resize_msg_buffer(&resp, kMsgSize);
+  c->rpc->resize_msg_buffer(&resp, kMsgSize);
   sprintf(reinterpret_cast<char *>(resp.buf_), "hello");
   // printf("got a message\n");
-  rpc->enqueue_response(req_handle, &resp);
+  c->rpc->enqueue_response(reqs_handler, &resp);
 }
 
 int main() {
