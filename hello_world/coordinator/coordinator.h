@@ -3,8 +3,6 @@
 #include "../msg.h"
 #include "rpc.h"
 
-#define Max_Server_Thread 30
-
 using namespace std;
 
 class Coordinator {
