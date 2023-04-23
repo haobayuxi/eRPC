@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TUPLEMETA_H
+#define TUPLEMETA_H
 #include <stdint.h>
 #include <string.h>
 
@@ -43,3 +44,5 @@ void TupleMeta::release_lock(uint64_t txn_id) {
     lock_txn_id = 0;
   }
 }
+
+#endif
