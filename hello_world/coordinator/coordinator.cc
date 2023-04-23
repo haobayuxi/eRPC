@@ -29,7 +29,7 @@ void cont_func(void *_context, void *_session) {
                            reinterpret_cast<void *>((size_t)session_num));
 }
 
-void Coordinator::handle_execute_res(void *_context, void *_session) {
+void Coordinator::handle_execute_resp(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto session = reinterpret_cast<size_t>(_session);
   c->t += 1;
@@ -110,12 +110,7 @@ void Coordinator::txn_begin() {
 
   // init start_time
 }
-void Coordinator::txn_execute() {
-  auto exe_request = new Execution();
-  exe_request->txn_id = t_id;
-  exe_request->read_set = read_set;
-  exe_request->write_set = write_set;
-}
+void Coordinator::txn_execute() {}
 void Coordinator::txn_validate() {}
 void Coordinator::txn_abort() {}
 void Coordinator::txn_commit() {}
