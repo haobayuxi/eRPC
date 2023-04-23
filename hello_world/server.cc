@@ -20,14 +20,14 @@ int main() {
   nexus.register_req_func(kReqType, req_handler);
   size_t num_threads = 1;
   std::vector<std::thread> threads(num_threads);
-  std::vector<MemServer *> mem_server_handlers;
   for (size_t i = 0; i < num_threads; i++) {
     MemServer *handler = new MemServer(i);
-    threads[i] = std::thread(run_server, handler, &nexus);
-    erpc::bind_to_core(threads[i], 0, i);
+    // threads[i] = std::thread(run_server, handler, &nexus);
+    // erpc::bind_to_core(threads[i], 0, i);
+    run_server(handler, &nexus);
   }
 
-  for (size_t i = 0; i < num_threads; i++) threads[i].join();
+  // for (size_t i = 0; i < num_threads; i++) threads[i].join();
   // rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, nullptr);
   // rpc->run_event_loop(100000);
 }
