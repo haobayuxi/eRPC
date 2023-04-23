@@ -47,7 +47,7 @@ int main() {
   s.port = kUDPPort;
   remotes.push_back(s);
   Coordinator *c = new Coordinator(0, 1, 10, remotes);
-  run_coordinator(c);
+  run_coordinator(c, &nexus);
   // ClientContext c;
   // erpc::Rpc<erpc::CTransport> *rpc = new erpc::Rpc<erpc::CTransport>(
   //     &nexus, static_cast<void *>(&c), 0, sm_handler);

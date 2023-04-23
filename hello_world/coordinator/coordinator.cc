@@ -23,7 +23,8 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
       int session_num = c->sessions[i][j];
 
       c->rpc_->enqueue_request(session_num, kReqType, &c->req[j], &c->resp[j],
-                               cont_func, reinterpret_cast<void *> session_num);
+                               cont_func,
+                               reinterpret_cast<void *> & session_num);
     }
   }
   while (1) {
@@ -55,6 +56,6 @@ void Coordinator::init_rpc() {
   }
 
   while (num_sm_resps != server_num * server_threads) {
-    rpc->run_event_loop(100);
+    rpc_->run_event_loop(100);
   }
 }
