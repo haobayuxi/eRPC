@@ -1,8 +1,8 @@
 
 #include "../common.h"
+#include "../msg.h"
 #include "../workload/micro_db.h"
 #include "rpc.h"
-#include "../msg.h"
 
 class MemServer {
  public:
@@ -12,7 +12,7 @@ class MemServer {
   size_t thread_id;
   DbType db_type;
 
-  Micro_Db *micro_db;
+  DataStore *store;
 
  private:
 };
