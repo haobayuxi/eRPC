@@ -7,5 +7,5 @@
 using namespace std;
 class Micro_Db {
  public:
-  unordered_map<uint64_t, (TupleMeta, string)> data;
+  unordered_map<uint64_t, TupleMeta> data;
 };

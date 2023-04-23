@@ -13,7 +13,7 @@ void run_server(MemServer *s, erpc::Nexus *nexus) {
   }
 }
 
-void MemServer::handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
+void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
   const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
@@ -29,15 +29,15 @@ void MemServer::handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   // reply to client
 }
 
-void MemServer::handle_validate(erpc::ReqHandle *req_handle, void *_handler) {
+void handle_validate(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
 }
 
-void MemServer::handle_commit(erpc::ReqHandle *req_handle, void *_handler) {
+void handle_commit(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
 }
 
-void MemServer::handle_abort(erpc::ReqHandle *req_handle, void *_handler) {
+void handle_abort(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
 }
 
