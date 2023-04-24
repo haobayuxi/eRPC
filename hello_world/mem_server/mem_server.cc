@@ -26,6 +26,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   response->txn_id = req->txn_id;
   //   get read data
   auto success = server->store->get_read_set(req, response);
+  printf("read success = %d, size = %d\n", success, response->read_set.size());
   // lock write data
   if (!success) {
     // reply fail
@@ -43,7 +44,8 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
       response->success = true;
     }
   }
-  printf("response read set size = %d\n", response->read_set.size());
+  printf("response read set size = %d, success = %d\n",
+         response->read_set.size(), response->success);
   // serialize reponse
   erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
   serialize_exe_response(&resp, response);

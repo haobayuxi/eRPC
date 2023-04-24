@@ -26,9 +26,11 @@ class Micro_Db : public DataStore {
   }
   unordered_map<uint64_t, MicroTuple *> data;
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
+    printf("micro get read set");
     for (int i = 0; i < request->read_set.size(); i++) {
       // get tuple
       auto key = request->read_set[i].key;
+      printf("get key = %ld\n", key);
       auto tuple = data[key];
       tuple->meta.get_read_lock();
       if (!tuple->meta.is_locked()) {
@@ -40,6 +42,7 @@ class Micro_Db : public DataStore {
         response->read_set.push_back(item);
         tuple->meta.release_rw_lock();
       } else {
+        printf("tuple is locked\n");
         tuple->meta.release_rw_lock();
         return false;
       }

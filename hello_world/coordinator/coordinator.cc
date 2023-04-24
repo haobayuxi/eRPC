@@ -64,7 +64,7 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   int session_num = c->sessions[0][0];
   c->txn_id = 101;
   auto item = new DataItem();
-  item->key.key = 101;
+  item->key.key = 10;
   item->key.table_id = 2;
   c->read_only_set.push_back(item);
   printf("ready to serialize\n");
