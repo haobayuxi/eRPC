@@ -26,18 +26,16 @@ int main() {
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(server_uri);
 
-  printf(" size = %d", sizeof(struct SubscriberValue));
+  nexus.register_req_func(ExecutionType, handle_execute);
+  size_t num_threads = 10;
+  std::vector<std::thread> threads(num_threads);
+  for (size_t i = 0; i < num_threads; i++) {
+    MemServer *handler = new MemServer(i);
+    threads[i] = std::thread(run_server, handler, &nexus);
+    erpc::bind_to_core(threads[i], 0, i);
+  }
 
-  // nexus.register_req_func(kReqType, reqs_handler);
-  // size_t num_threads = 10;
-  // std::vector<std::thread> threads(num_threads);
-  // for (size_t i = 0; i < num_threads; i++) {
-  //   MemServer *handler = new MemServer(i);
-  //   threads[i] = std::thread(run_server, handler, &nexus);
-  //   erpc::bind_to_core(threads[i], 0, i);
-  // }
-
-  // for (size_t i = 0; i < num_threads; i++) threads[i].join();
+  for (size_t i = 0; i < num_threads; i++) threads[i].join();
   // rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, nullptr);
   // rpc->run_event_loop(100000);
 }

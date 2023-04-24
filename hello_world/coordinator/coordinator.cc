@@ -22,16 +22,16 @@ void cont_func(void *_context, void *_session) {
 
   int session_num = c->sessions[0][0];
   printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
-  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
-                           reinterpret_cast<void *>((size_t)session_num));
+  c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
+                           handle_execute_resp);
 }
 
-void Coordinator::handle_execute_resp(void *_context, void *_session) {
+void Coordinator::handle_execute_resp(void *_context, void *) {
   auto *c = static_cast<Coordinator *>(_context);
-  auto session = reinterpret_cast<size_t>(_session);
-
-  int session_num = c->sessions[0][0];
-  printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
+  auto response = new ExecutionRes();
+  unpack_exe_response(&c->resp, response);
+  printf("txnid = %ld %d, success = %s\n", response.txn_id,
+         response.read_set.size(), response.success);
   //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
   //   cont_func,)
 }
@@ -61,8 +61,15 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   c->init_rpc();
   c->start_tsc_ = erpc::rdtsc();
   int session_num = c->sessions[0][0];
-  c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
-                           reinterpret_cast<void *>(session_num));
+  c->txn_id = 101;
+  Key k = Key();
+  k.key = 1;
+  k.table_id = 2;
+  c->read_only_set.push_back(k);
+  serialize_exe_response(&c->req, &c->read_only_set, &c->read_write_set,
+                         c->txn_id);
+  c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
+                           handle_execute_resp);
   while (1) {
     c->rpc_->run_event_loop(10000);
   }
@@ -129,6 +136,7 @@ bool Coordinator::txn_execute() {
     // broadcast to all server
   }
   // send to servers
+
   return true;
 }
 bool Coordinator::txn_validate() {

@@ -62,8 +62,8 @@ class Micro_Db : public DataStore {
   }
   bool lock_write_set(ExecutionRequest *request) {
     for (int i = 0; i < request->read_set.size(); i++) {
-      auto key = request->read_set[i];
-      auto tuple = data[key.key];
+      auto key = request->read_set[i].key;
+      auto tuple = data[key];
       if (!tuple->meta.set_lock(request->txn_id)) {
         return false;
       }

@@ -42,10 +42,12 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
     }
   }
   // serialize reponse
-
+  erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf;
+  serialize_exe_response(&resp, response);
   // insert into wait list
 
   // reply to client
+  server->rpc_->enqueue_response(req_handle, &resp);
 }
 
 void handle_validate(erpc::ReqHandle *req_handle, void *_handler) {
