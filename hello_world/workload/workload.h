@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-#include "../msg.h"
+#include "../common/msg.h"
 
 using namespace std;
 

@@ -3,8 +3,8 @@
 #define COORDINATOR_H
 #include <pthread.h>
 
-#include "../common.h"
-#include "../msg.h"
+#include "../common/common.h"
+#include "../common/msg.h"
 #include "rpc.h"
 using namespace std;
 

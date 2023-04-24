@@ -4,7 +4,7 @@
 #include <ctime>
 #include <iostream>
 
-#include "common.h"
+#include "common/common.h"
 #include "coordinator/coordinator.h"
 
 using namespace std::chrono;

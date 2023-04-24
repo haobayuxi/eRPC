@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-#include "../msg.h"
+#include "../common/msg.h"
 #include "tuple_meta.h"
 #include "workload.h"
 

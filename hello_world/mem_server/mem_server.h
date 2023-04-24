@@ -1,6 +1,6 @@
 
-#include "../common.h"
-#include "../msg.h"
+#include "../common/common.h"
+#include "../common/msg.h"
 #include "../workload/micro_db.h"
 #include "rpc.h"
 

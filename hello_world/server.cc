@@ -1,4 +1,4 @@
-#include "common.h"
+#include "common/common.h"
 #include "mem_server/mem_server.h"
 #include "unordered_map"
 #include "util/latency.h"
