@@ -30,7 +30,7 @@ int main() {
 
   struct Test t;
   t.t = 100;
-  unordered_map<int, struct Test> x;
+  unordered_map<int, struct Test> xx;
   xx.insert(make_pair(1, t));
   auto f = xx.find(1);
   *f.t = 10;

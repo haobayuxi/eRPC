@@ -20,8 +20,8 @@ class Micro_Db : public DataStore {
   unordered_map<uint64_t, MicroTuple> data;
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
     auto result = true;
-    for (auto first = res->read_set.begin(); first < res->read_set.end();
-         ++first) {
+    for (auto first = request->read_set.begin();
+         first < request->read_set.end(); ++first) {
       // get tuple
       *first;
       if (data.find(*first.key) != data.end()) {
@@ -31,16 +31,16 @@ class Micro_Db : public DataStore {
   }
   bool validate_read_set(ValidationRequest *request) {
     auto result = true;
-    for (auto first = res->read_set.begin(); first < res->read_set.end();
-         ++first) {
+    for (auto first = request->read_set.begin();
+         first < request->read_set.end(); ++first) {
       *first;
     }
     return result;
   }
   bool lock_write_set(ExecutionRequest *request) {
     auto result = true;
-    for (auto first = res->write_set.begin(); first < res->write_set.end();
-         ++first) {
+    for (auto first = request->write_set.begin();
+         first < request->write_set.end(); ++first) {
       *first;
     }
     return result;
