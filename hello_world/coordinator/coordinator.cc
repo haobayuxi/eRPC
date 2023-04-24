@@ -30,8 +30,8 @@ void handle_execute_resp(void *_context, void *) {
   auto *c = static_cast<Coordinator *>(_context);
   auto response = new ExecutionRes();
   unpack_exe_response(&c->resp, response);
-  printf("txnid = %ld %d, success = %s\n", response.txn_id,
-         response.read_set.size(), response.success);
+  printf("txnid = %ld %d, success = %s\n", response->txn_id,
+         response->read_set.size(), response->success);
   //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
   //   cont_func,)
 }
