@@ -28,8 +28,8 @@ class Micro_Db : public DataStore {
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
     for (int i = 0; i < request->read_set.size(); i++) {
       // get tuple
-      uint64_t key = request->read_set[i]->key;
-      auto tuple = data[key];
+      auto key = request->read_set[i];
+      auto tuple = data[key.key];
       tuple->meta.get_read_lock();
       if (!tuple->meta.is_locked()) {
         // read
