@@ -12,6 +12,7 @@ void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
   int read_set_size = read_set->size();
   memcpy(buf, &read_set_size, 4);
   buf += 4;
+  printf("serialize read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     memcpy(buf, read_set->at(i), KeySize);
     buf += KeySize;
@@ -33,6 +34,7 @@ void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
   int read_set_size = 0;
   memcpy(&read_set_size, buf, 4);
   buf += 4;
+  printf("unpack read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     struct Key key;
     memcpy(&key, buf, KeySize);
