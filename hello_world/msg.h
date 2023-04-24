@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MSG
+#define MSG
 #include <vector>
 
 #include "common.h"
@@ -105,3 +106,5 @@ class AbortRequest {
   uint64_t txn_id;
   std::vector<uint64_t> write_set;
 };
+
+#endif
