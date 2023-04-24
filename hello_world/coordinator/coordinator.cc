@@ -125,6 +125,15 @@ void Coordinator::txn_begin() {
 }
 bool Coordinator::txn_execute() {
   // serialize execute msg
+  bool read_only = true;
+  if (write_set.size() > have_read_writed) {
+    read_only = false;
+  }
+  if (read_only) {
+    // get read set from a random server
+  } else {
+    // broadcast to all server
+  }
   // send to servers
   return true;
 }
@@ -146,7 +155,7 @@ void Coordinator::txn_abort() {
   // serialize abort msg
   switch (type) {
     case Yuxi: {
-      if (write_set.size() != 0) {
+      if (read_write_set.size() != 0) {
         // send abort msg
       }
     }
@@ -161,7 +170,7 @@ void Coordinator::txn_commit() {
   // serialize commit msg
   switch (type) {
     case Yuxi: {
-      if (write_set.size() != 0) {
+      if (read_write_set.size() != 0) {
         // send commit msg
       }
     }

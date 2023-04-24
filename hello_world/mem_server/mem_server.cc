@@ -69,6 +69,7 @@ MemServer::MemServer(size_t _thread_id) {
       store = new Micro_Db();
       break;
     }
-    default:
+    default: {
+    }
   }
 }
