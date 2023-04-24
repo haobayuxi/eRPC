@@ -42,7 +42,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
     }
   }
   // serialize reponse
-  erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf;
+  erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
   serialize_exe_response(&resp, response);
   // insert into wait list
 
