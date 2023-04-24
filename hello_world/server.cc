@@ -29,8 +29,9 @@ int main() {
   nexus.register_req_func(ExecutionType, handle_execute);
   size_t num_threads = 10;
   std::vector<std::thread> threads(num_threads);
+  DataStore *store = new Micro_Db();
   for (size_t i = 0; i < num_threads; i++) {
-    MemServer *handler = new MemServer(i);
+    MemServer *handler = new MemServer(i, store);
     threads[i] = std::thread(run_server, handler, &nexus);
     erpc::bind_to_core(threads[i], 0, i);
   }

@@ -43,8 +43,9 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
       response->success = true;
     }
   }
-  // serialize reponse
-  erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
+  printf("")
+      // serialize reponse
+      erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
   serialize_exe_response(&resp, response);
   // insert into wait list
 
@@ -64,16 +65,17 @@ void handle_abort(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
 }
 
-MemServer::MemServer(size_t _thread_id) {
+MemServer::MemServer(size_t _thread_id, DataStore *store_) {
   thread_id = _thread_id;
+  store = store_;
   // init data store
-  switch (db_type) {
-    case Micro: {
-      //
-      store = new Micro_Db();
-      break;
-    }
-    default: {
-    }
-  }
+  // switch (db_type) {
+  //   case Micro: {
+  //     //
+  //     store = new Micro_Db();
+  //     break;
+  //   }
+  //   default: {
+  //   }
+  // }
 }
