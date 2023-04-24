@@ -6,7 +6,6 @@
 #include "util/math_utils.h"
 #include "util/numautils.h"
 #include "workload/tatp_db.h"
-#include "workload/workload.h"
 
 using namespace std;
 
