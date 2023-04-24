@@ -16,7 +16,7 @@ struct Key {
 };
 
 struct DataItem {
-  struct Key key;
+  Key key;
   uint64_t ts;
   uint8_t value[MAX_ITEM_SIZE];
   int data_size;
@@ -26,8 +26,8 @@ using DataItemPtr = std::shared_ptr<DataItem>;
 class ExecutionRequest {
  public:
   uint64_t txn_id;
-  std::vector<struct Key> read_set;
-  std::vector<struct Key> write_set;
+  std::vector<Key> read_set;
+  std::vector<Key> write_set;
 };
 
 void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
