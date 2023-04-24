@@ -42,7 +42,7 @@ void serialize_exe_response(const erpc::MsgBuffer *req_msgbuf,
   memcpy(buf, &read_set_size, 4);
   buf += 4;
   for (int i = 0; i < read_set_size; i++) {
-    int size =
+    // int size =
   }
 }
 
