@@ -22,7 +22,10 @@ class Micro_Db : public DataStore {
     auto result = true;
     for (auto first = res->read_set.begin(); first < res->read_set.end();
          ++first) {
+      // get tuple
       *first;
+      if (data.find(*first.key) != data.end()) {
+      }
     }
     return true;
   }
