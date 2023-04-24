@@ -14,14 +14,14 @@ void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
   buf += 4;
   printf("serialize read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
-    memcpy(buf, &read_set->at(i).key, KeySize);
+    memcpy(buf, &read_set->at(i)->key, KeySize);
     buf += KeySize;
   }
   int write_set_size = write_set->size();
   memcpy(buf, &write_set_size, 4);
   buf += 4;
   for (int i = 0; i < write_set_size; i++) {
-    memcpy(buf, &write_set->at(i).key, KeySize);
+    memcpy(buf, &write_set->at(i)->key, KeySize);
     buf += KeySize;
   }
 }
