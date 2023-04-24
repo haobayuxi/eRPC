@@ -40,17 +40,6 @@ class ExecutionRes {
 
 void unpack_exe_response(erpc::MsgBuffer &req_msgbuf, ExecutionRes *response);
 
-void serialize_exe_response(erpc::MsgBuffer &req_msgbuf,
-                            ExecutionRes *request) {
-  uint8_t *buf = req_msgbuf.buf_;
-  // memcpy(buf, &txn_id, 8);
-  // buf += 8;
-  // uint32_t read_set_size = read_set.size();
-  // memcpy(buf, &read_set_size, 4);
-  // buf += 4;
-  // for (int i = 0; i <) memcpy(buf, &txn_id, 8);
-}
-
 class ValidationRequest {
  public:
   uint64_t txn_id;
