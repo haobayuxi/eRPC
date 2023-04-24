@@ -36,7 +36,6 @@ class Micro_Db : public DataStore {
         struct DataItem item;
         item.key = request->read_set[i];
         item.ts = tuple->meta.ts;
-        item.data_size = MicroDataSize;
         memcpy(item.value, tuple->data, MicroDataSize);
         response->read_set.push_back(item);
         tuple->meta.release_rw_lock();
