@@ -49,15 +49,15 @@ class Micro_Db : public DataStore {
   }
   bool validate_read_set(ValidationRequest *request) {
     auto result = true;
-    for (int i = 0; i < request->read_set.size(); i++) {
-      auto key = request->read_set[i];
-      auto tuple = data[key.key];
-      tuple->meta.get_read_lock();
-      if (tuple->meta.is_locked()) {
-        tuple->meta.release_rw_lock();
-        return false;
-      }
-    }
+    // for (int i = 0; i < request->read_set.size(); i++) {
+    //   auto key = request->read_set[i];
+    //   auto tuple = data[key.key];
+    //   tuple->meta.get_read_lock();
+    //   if (tuple->meta.is_locked()) {
+    //     tuple->meta.release_rw_lock();
+    //     return false;
+    //   }
+    // }
     return result;
   }
   bool lock_write_set(ExecutionRequest *request) {
