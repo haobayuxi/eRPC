@@ -14,7 +14,7 @@ void run_server(MemServer *s, erpc::Nexus *nexus) {
 }
 
 void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
-  auto *c = static_cast<MemServer *>(_handler);
+  auto *server = static_cast<MemServer *>(_handler);
   const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
   //   get request
@@ -23,7 +23,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   auto response = new ExecutionRes();
   response->txn_id = req->txn_id;
   //   get read data
-  auto success = store->get_read_set(req, response);
+  auto success = server->store->get_read_set(req, response);
   // lock write data
   if (!success) {
     // reply fail
@@ -31,7 +31,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
     response->read_set.clear();
   } else {
     if (req->write_set.size() > 0) {
-      success = store->lock_write_set(req);
+      success = server->store->lock_write_set(req);
       if (!success) {
         // reply fail
         response->success = false;
