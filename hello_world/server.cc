@@ -30,12 +30,12 @@ int main() {
 
   struct Test t;
   t.t = 100;
-  unordered_map<int, struct Test> xx;
-  xx.insert(make_pair(1, t));
-  auto f = xx.find(1);
-  *f.t = 10;
-  auto d = xx.find(1);
-  printf("test %d", *d.t);
+  unordered_map<int, struct Test *> xx;
+  xx.insert(make_pair(1, &t));
+  auto f = xx[1];
+  f->t = 10;
+  auto d = xx[1];
+  printf("test %d", d->t);
 
   // nexus.register_req_func(kReqType, reqs_handler);
   // size_t num_threads = 10;
