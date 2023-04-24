@@ -62,10 +62,10 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   c->start_tsc_ = erpc::rdtsc();
   int session_num = c->sessions[0][0];
   c->txn_id = 101;
-  auto k = new Key();
-  k->key = 1;
-  k->table_id = 2;
-  c->read_only_set.push_back(k);
+  auto item = new DataItem();
+  item->key.key = 101;
+  item->key.table_id = 2;
+  c->read_only_set.push_back(item);
   serialize_exe_request(&c->req, &c->read_only_set, &c->read_write_set,
                         c->txn_id);
   c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
