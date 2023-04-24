@@ -49,7 +49,7 @@ class ExecutionRes {
 void serialize_exe_response(erpc::MsgBuffer *req_msgbuf,
                             ExecutionRes *response);
 
-void unpack_exe_response(erpc::MsgBuffer &req_msgbuf, ExecutionRes *response);
+void unpack_exe_response(erpc::MsgBuffer *req_msgbuf, ExecutionRes *response);
 
 class ValidationRequest {
  public:
