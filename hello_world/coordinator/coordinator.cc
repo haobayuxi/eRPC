@@ -69,7 +69,7 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   serialize_exe_request(&c->req, &c->read_only_set, &c->read_write_set,
                         c->txn_id);
   c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
-                           handle_execute_resp);
+                           handle_execute_resp, NULL);
   while (1) {
     c->rpc_->run_event_loop(10000);
   }
