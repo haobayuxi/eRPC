@@ -34,7 +34,7 @@ class ExecutionRequest {
 
 void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
                            vector<DataItem *> *read_set,
-                           vector<DataItem *> *write_set);
+                           vector<DataItem *> *write_set, uint64_t txn_id);
 
 void unpack_exe_request(erpc::MsgBuffer *req_msgbuf, ExecutionRequest *request);
 
