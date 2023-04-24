@@ -3,7 +3,6 @@
 #include <unordered_map>
 
 #include "tuple_meta.h"
-#include "workload.h"
 
 using namespace std;
 
@@ -17,7 +16,7 @@ class MicroTuple {
   char data[MicroDataSize];
 };
 
-class Micro_Db : public DataStore {
+class Micro_Db {
  public:
   Micro_Db() {
     for (uint64_t i = 0; i < MicroTableSize; i++) {
