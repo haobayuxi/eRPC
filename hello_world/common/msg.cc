@@ -2,7 +2,7 @@
 #include "msg.h"
 
 int serialize_DataItem(char *buf, struct DataItem *item) {
-  memcpy(buf, item->key, KeySize);
+  memcpy(buf, &item->key, KeySize);
   memcpy(buf + KeySize, &item->ts, 8);
 
   return KeySize + 8 + item->data_size;
@@ -35,7 +35,7 @@ void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
 
 void serialize_exe_response(const erpc::MsgBuffer *req_msgbuf,
                             ExecutionRes *response) {
-  uint8_t *buf = req_msgbuf->pre_resp_msgbuf_;
+  uint8_t *buf = req_msgbuf->buf_;
   memcpy(&response->txn_id, buf, 8);
   buf += 8;
   int read_set_size = response->read_set.size();
