@@ -23,7 +23,7 @@ void cont_func(void *_context, void *_session) {
   int session_num = c->sessions[0][0];
   printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
   c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
-                           handle_execute_resp);
+                           handle_execute_resp, NULL);
 }
 
 void handle_execute_resp(void *_context, void *) {

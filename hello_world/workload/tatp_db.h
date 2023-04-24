@@ -28,9 +28,17 @@ struct AccessInfoValue {
   uint8_t unused[6];
 };
 
-struct SpecialFacilityValue {};
+struct SpecialFacilityValue {
+  char is_active;
+  char error_cntl;
+  char data_a;
+  char data_b[5];
+};
 
-struct CallForwardingValue {};
+struct CallForwardingValue {
+  uint8_t end_time;
+  char numberx[15];
+};
 
 class Tatp_Db : public DataStore {
  public:
