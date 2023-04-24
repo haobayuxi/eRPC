@@ -93,9 +93,9 @@ void serialize_exe_response(erpc::MsgBuffer *req_msgbuf,
   memcpy(buf, &read_set_size, 4);
   buf += 4;
   for (int i = 0; i < read_set_size; i++) {
-    auto size = serialize_DataItem(buf, &response->read_set[i]);
-    // memcpy(buf, , DataItemSize);
-    buf += size;
+    // auto size = serialize_DataItem(buf, &response->read_set[i]);
+    memcpy(buf, &response->read_set[i], DataItemSize);
+    buf += 60;
   }
   memcpy(buf, &response->success, 1);
 }
@@ -110,8 +110,8 @@ void unpack_exe_response(erpc::MsgBuffer *req_msgbuf, ExecutionRes *response) {
   printf("recv read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     struct DataItem item;
-    // memcpy(&item, buf, DataItemSize);
-    deserialize_DataItem(buf, &item);
+    memcpy(&item, buf, DataItemSize);
+    // deserialize_DataItem(buf, &item);
     printf("data item key = %ld\n", item.key.key);
     response->read_set.push_back(item);
     buf += 60;
