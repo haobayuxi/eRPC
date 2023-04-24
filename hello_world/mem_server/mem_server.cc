@@ -18,8 +18,10 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
   //   get request
+  printf("get a msg\n");
   auto req = new ExecutionRequest();
   unpack_exe_request(req_buff, req);
+  printf("get a exe request txnid = %ld\n", req->txn_id);
   auto response = new ExecutionRes();
   response->txn_id = req->txn_id;
   //   get read data
