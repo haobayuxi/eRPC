@@ -62,9 +62,9 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   c->start_tsc_ = erpc::rdtsc();
   int session_num = c->sessions[0][0];
   c->txn_id = 101;
-  Key k = Key();
-  k.key = 1;
-  k.table_id = 2;
+  auto k = new Key();
+  k->key = 1;
+  k->table_id = 2;
   c->read_only_set.push_back(k);
   serialize_exe_request(&c->req, &c->read_only_set, &c->read_write_set,
                         c->txn_id);
