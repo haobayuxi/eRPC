@@ -19,7 +19,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   size_t req_size = req_buff->get_data_size();
   //   get request
   auto req = new ExecutionRequest();
-  req->unpack(req_buff);
+  unpack_exe_request(req_buff, req);
   auto response = new ExecutionRes();
   response->txn_id = req->txn_id;
   //   get read data
@@ -42,6 +42,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
     }
   }
   // serialize reponse
+
   // insert into wait list
 
   // reply to client

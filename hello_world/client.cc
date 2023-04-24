@@ -41,12 +41,13 @@ int main() {
   std::string client_uri = kClientHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(client_uri);
 
+  auto local_ts = new LocalTs();
   vector<RemoteNode> remotes;
   struct RemoteNode s;
   s.ip = kServerHostname;
   s.port = kUDPPort;
   remotes.push_back(s);
-  Coordinator *c = new Coordinator(0, 1, 10, remotes);
+  Coordinator *c = new Coordinator(0, 1, 10, remotes, local_ts);
   run_coordinator(c, &nexus);
   // ClientContext c;
   // erpc::Rpc<erpc::CTransport> *rpc = new erpc::Rpc<erpc::CTransport>(

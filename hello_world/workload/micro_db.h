@@ -23,9 +23,9 @@ class Micro_Db : public DataStore {
     for (auto first = request->read_set.begin();
          first < request->read_set.end(); ++first) {
       // get tuple
-      *first;
-      if (data.find(*first.key) != data.end()) {
-      }
+      //   *first;
+      //   if (data.find(*first.key) != data.end()) {
+      //   }
     }
     return true;
   }
