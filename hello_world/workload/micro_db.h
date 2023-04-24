@@ -28,7 +28,7 @@ class Micro_Db : public DataStore {
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
     for (int i = 0; i < request->read_set.size(); i++) {
       // get tuple
-      auto key = request->read_set[i].key;
+      uint64_t key = request->read_set[i].key;
       auto tuple = data[key];
       tuple->meta.get_read_lock();
       if (!tuple->meta.is_locked()) {
@@ -50,7 +50,7 @@ class Micro_Db : public DataStore {
   bool validate_read_set(ValidationRequest *request) {
     auto result = true;
     for (int i = 0; i < request->read_set.size(); i++) {
-      auto key = request->read_set[i].key;
+      uint64_t key = request->read_set[i].key;
       auto tuple = data[key];
       tuple->meta.get_read_lock();
       if (tuple->meta.is_locked()) {
@@ -62,7 +62,7 @@ class Micro_Db : public DataStore {
   }
   bool lock_write_set(ExecutionRequest *request) {
     for (int i = 0; i < request->read_set.size(); i++) {
-      auto key = request->read_set[i].key;
+      uint64_t key = request->read_set[i].key;
       auto tuple = data[key];
       if (!tuple->meta.set_lock(request->txn_id)) {
         return false;
