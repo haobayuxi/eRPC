@@ -84,6 +84,7 @@
         "variant": "cpp",
         "vector": "cpp",
         "*.ipp": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "__memory": "cpp"
     }
 }

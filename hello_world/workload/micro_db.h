@@ -37,7 +37,7 @@ class Micro_Db : public DataStore {
         item.key = request->read_set[i];
         item.ts = tuple->meta.ts;
         item.data_size = MicroDataSize;
-        memcpy(item.data, tuple->data, MicroDataSize);
+        memcpy(item.value, tuple->data, MicroDataSize);
         response->read_set.push_back(item);
       } else {
         return false;
