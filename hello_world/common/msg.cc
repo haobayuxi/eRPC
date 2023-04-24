@@ -18,7 +18,8 @@ void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
     memcpy(buf + 4, &read_set->at(i)->key.key, 8);
     printf("serialize key = %ld\n", read_set->at(i)->key.key);
     struct Key key;
-    memcpy(&key, buf, KeySize);
+    memcpy(&key.table_id, buf, 4);
+    memcpy(&key.key, buf + 4, 8);
     printf("serialize key = %ld\n", key.key);
     buf += KeySize;
   }
