@@ -8,13 +8,13 @@
 using namespace std;
 
 #define MicroTableSize 100000
-#define MicroDataSize 30
+#define MicroDataSize 40
 
 class MicroTuple {
  public:
   MicroTuple() { meta = TupleMeta(); }
   TupleMeta meta;
-  char data[30];
+  char data[MicroDataSize];
 };
 
 class Micro_Db : public DataStore {
@@ -28,8 +28,8 @@ class Micro_Db : public DataStore {
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
     for (int i = 0; i < request->read_set.size(); i++) {
       // get tuple
-      auto key = request->read_set[i];
-      auto tuple = data[key.key];
+      auto key = request->read_set[i].key;
+      auto tuple = data[key];
       tuple->meta.get_read_lock();
       if (!tuple->meta.is_locked()) {
         // read
