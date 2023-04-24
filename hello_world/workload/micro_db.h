@@ -7,25 +7,41 @@
 
 using namespace std;
 
-struct MicroValue {
-  char data[50];
-};
-struct MicroTuple {
+#define MicroTableSize 100000
+#define MicroDataSize 40
+
+class MicroTuple {
+ public:
+  MicroTuple() { meta = TupleMeta(); }
   TupleMeta meta;
-  struct MicroValue value;
+  char data[40];
 };
 
 class Micro_Db : public DataStore {
  public:
-  unordered_map<uint64_t, MicroTuple> data;
+  Micro_Db() {
+    for (uint64_t i = 0; i < MicroTableSize; i++) {
+      data.insert(make_pair(i, new MicroTuple()));
+    }
+  }
+  unordered_map<uint64_t, MicroTuple *> data;
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
-    auto result = true;
-    for (auto first = request->read_set.begin();
-         first < request->read_set.end(); ++first) {
+    for (int i = 0; i < request->read_set.size(); i++) {
       // get tuple
-      //   *first;
-      //   if (data.find(*first.key) != data.end()) {
-      //   }
+      auto key = request->read_set[i].key;
+      auto tuple = data[key];
+      tuple->meta.get_read_lock();
+      if (!tuple->meta.is_locked()) {
+        // read
+        struct DataItem item;
+        item.key = request->read_set[i];
+        item.ts = tuple->meta.ts;
+        item.data_size = MicroDataSize;
+        memcpy(item.data, tuple->data, MicroDataSize);
+        response->read_set.push_back(item);
+      } else {
+        return false;
+      }
     }
     return true;
   }

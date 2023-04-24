@@ -8,9 +8,9 @@ using namespace std;
 
 class TupleMeta {
  public:
-  TupleMeta(uint64_t lock_txn_id_, uint64_t ts_) {
-    lock_txn_id = lock_txn_id_;
-    ts = ts_;
+  TupleMeta() {
+    lock_txn_id = 0;
+    ts = 0;
     rwlock = PTHREAD_RWLOCK_INITIALIZER;
   }
   uint64_t lock_txn_id;
