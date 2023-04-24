@@ -50,7 +50,7 @@ class Micro_Db : public DataStore {
   bool validate_read_set(ValidationRequest *request) {
     auto result = true;
     for (int i = 0; i < request->read_set.size(); i++) {
-      auto key = request->read_set[i].key;
+      auto key = request->read_set[i];
       auto tuple = data[key.key];
       tuple->meta.get_read_lock();
       if (tuple->meta.is_locked()) {
@@ -62,7 +62,7 @@ class Micro_Db : public DataStore {
   }
   bool lock_write_set(ExecutionRequest *request) {
     for (int i = 0; i < request->read_set.size(); i++) {
-      auto key = request->read_set[i].key;
+      auto key = request->read_set[i];
       auto tuple = data[key.key];
       if (!tuple->meta.set_lock(request->txn_id)) {
         return false;
