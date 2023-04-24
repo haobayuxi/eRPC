@@ -27,7 +27,7 @@ class Micro_Db {
   }
   unordered_map<uint64_t, MicroTuple *> data;
   bool get_read_set(ExecutionRequest *request, ExecutionRes *response) {
-    printf("micro get read set");
+    printf("micro get read set\n");
     for (int i = 0; i < request->read_set.size(); i++) {
       // get tuple
       auto key = request->read_set[i].key;
