@@ -2,8 +2,8 @@
 #include "msg.h"
 
 void serialize_exe_request(const erpc::MsgBuffer *req_msgbuf,
-                           vector<DataItem> *read_set,
-                           vector<DataItem> *write_set, uint64_t txn_id) {
+                           vector<DataItemPtr> *read_set,
+                           vector<DataItemPtr> *write_set, uint64_t txn_id) {
   // resize
 
   uint8_t *buf = req_msgbuf->buf_;
@@ -13,14 +13,14 @@ void serialize_exe_request(const erpc::MsgBuffer *req_msgbuf,
   memcpy(buf, &read_set_size, 4);
   buf += 4;
   for (int i = 0; i < read_set_size; i++) {
-    memcpy(buf, &read_set->at(i), KeySize);
+    memcpy(buf, read_set->at(i), KeySize);
     buf += KeySize;
   }
   int write_set_size = write_set->size();
   memcpy(buf, &write_set_size, 4);
   buf += 4;
   for (int i = 0; i < write_set_size; i++) {
-    memcpy(buf, &write_set->at(i), KeySize);
+    memcpy(buf, write_set->at(i), KeySize);
     buf += KeySize;
   }
 }
