@@ -27,8 +27,8 @@ class ExecutionRequest {
   std::vector<struct Key> write_set;
 };
 
-static void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
-                               ExecutionRequest *request) {
+void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
+                        ExecutionRequest *request) {
   uint8_t *buf = req_msgbuf->buf_;
   memcpy(&request->txn_id, buf, 8);
   buf += 8;
