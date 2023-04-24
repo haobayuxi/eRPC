@@ -3,6 +3,9 @@
 #include <vector>
 
 #include "common.h"
+
+using namespace std;
+
 // rpc operation
 #define ThroughputType 0
 #define ExecutionType 1
