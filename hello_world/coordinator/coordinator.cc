@@ -19,11 +19,8 @@ void coordinator_sm_handler(int session_num, erpc::SmEventType sm_event_type,
 void cont_func(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto session = reinterpret_cast<size_t>(_session);
-  c->t += 1;
-  if (c->t >= 10) {
-    return;
-  }
-  int session_num = c->sessions[0][c->t];
+
+  int session_num = c->sessions[0][0];
   printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp, cont_func,
                            reinterpret_cast<void *>((size_t)session_num));
@@ -32,11 +29,8 @@ void cont_func(void *_context, void *_session) {
 void Coordinator::handle_execute_resp(void *_context, void *_session) {
   auto *c = static_cast<Coordinator *>(_context);
   auto session = reinterpret_cast<size_t>(_session);
-  c->t += 1;
-  if (c->t >= 10) {
-    return;
-  }
-  int session_num = c->sessions[0][c->t];
+
+  int session_num = c->sessions[0][0];
   printf("session = %ld %d, value = %s\n", session, session_num, c->resp.buf_);
   //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
   //   cont_func,)
@@ -126,7 +120,7 @@ void Coordinator::txn_begin() {
 bool Coordinator::txn_execute() {
   // serialize execute msg
   bool read_only = true;
-  if (write_set.size() > have_read_writed) {
+  if (read_write_set.size() > have_read_writed) {
     read_only = false;
   }
   if (read_only) {
