@@ -75,13 +75,13 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
 }
 
 Coordinator::Coordinator(int id_, int server_num_, int server_threads_,
-                         vector<RemoteNode> server_addrs_) {
+                         vector<RemoteNode> server_addrs_, LocalTs *local_ts_) {
   id = id_;
   server_num = server_num_;
   server_threads = server_threads_;
   server_addrs = server_addrs_;
   num_sm_resps = 0;
-  t = 0;
+  local_ts = local_ts_;
 }
 
 void Coordinator::init_rpc() {
@@ -106,11 +106,69 @@ void Coordinator::init_rpc() {
 
 void Coordinator::txn_begin() {
   reply_num = 0;
+  start_ts = 0;
+  have_readed = 0;
+  have_read_writed = 0;
   // init workload
 
   // init start_time
+  start_tsc_ = erpc::rdtsc();
+  //   init start ts
+  switch (type) {
+    case Yuxi: {
+      // get local ts
+      break;
+    }
+    default: {
+    }
+  }
 }
-void Coordinator::txn_execute() {}
-void Coordinator::txn_validate() {}
-void Coordinator::txn_abort() {}
-void Coordinator::txn_commit() {}
+bool Coordinator::txn_execute() {
+  // serialize execute msg
+  // send to servers
+  return true;
+}
+bool Coordinator::txn_validate() {
+  switch (type) {
+    case Yuxi: {
+    }
+    case Meerkat: {
+      // broadcast to validate
+    }
+    default: {
+    }
+  }
+  // serialize validate msg
+  // broadcast to servers
+  return true;
+}
+void Coordinator::txn_abort() {
+  // serialize abort msg
+  switch (type) {
+    case Yuxi: {
+      if (write_set.size() != 0) {
+        // send abort msg
+      }
+    }
+    case Meerkat: {
+      // broadcast to abort
+    }
+    default: {
+    }
+  }
+}
+void Coordinator::txn_commit() {
+  // serialize commit msg
+  switch (type) {
+    case Yuxi: {
+      if (write_set.size() != 0) {
+        // send commit msg
+      }
+    }
+    case Meerkat: {
+      // broadcast to validate
+    }
+    default: {
+    }
+  }
+}

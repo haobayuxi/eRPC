@@ -14,6 +14,9 @@ class MemServer {
 
   DataStore *store;
 
+  //   txns
+  unordered_map<int, struct ExecutionRequest *> txns;
+
  private:
 };
 

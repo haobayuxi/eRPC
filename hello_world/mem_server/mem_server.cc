@@ -18,12 +18,30 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
   //   get request
-  //   auto req = new Execution();
-  //   req->unpack(req_buff);
+  auto req = new ExecutionRequest();
+  req->unpack(req_buff);
+  auto response = new ExecutionRes();
+  response->txn_id = req->txn_id;
   //   get read data
-
+  auto success = store->get_read_set(req, response);
   // lock write data
-
+  if (!success) {
+    // reply fail
+    response->success = false;
+    response->read_set.clear();
+  } else {
+    if (req->write_set.size() > 0) {
+      success = store->lock_write_set(req);
+      if (!success) {
+        // reply fail
+        response->success = false;
+        response->read_set.clear();
+      }
+    } else {
+      response->success = true;
+    }
+  }
+  // serialize reponse
   // insert into wait list
 
   // reply to client
@@ -43,8 +61,13 @@ void handle_abort(erpc::ReqHandle *req_handle, void *_handler) {
 
 MemServer::MemServer(size_t _thread_id) {
   thread_id = _thread_id;
-  //   switch (db_type) {
-  //     case DbType::Micro:
-  //     default:
-  //   }
+  // init data store
+  switch (db_type) {
+    case Micro: {
+      //
+      store = new Micro_Db();
+      break;
+    }
+    default:
+  }
 }

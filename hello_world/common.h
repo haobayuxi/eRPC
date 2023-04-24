@@ -11,6 +11,7 @@ static const std::string kClientHostname = "192.168.3.72";
 static constexpr uint16_t kUDPPort = 31850;
 static constexpr uint8_t kReqType = 2;
 static constexpr size_t kMsgSize = 20;
+const size_t MAX_ITEM_SIZE = 664;
 
 #define ALWAYS_INLINE inline __attribute__((always_inline))
 

@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+#include "common.h"
 // rpc operation
+#define ThroughputType 0
 #define ExecutionType 1
 #define ValidationType 2
 #define CommitType 3
@@ -11,25 +13,41 @@ struct Key {
   uint64_t key;
 };
 
+struct DataItem {
+  struct Key key;
+  uint64_t ts;
+  uint8_t value[MAX_ITEM_SIZE];
+};
+using DataItemPtr = std::shared_ptr<DataItem>;
+
 class ExecutionRequest {
  public:
   uint64_t txn_id;
-  std::vector<uint64_t> read_set;
-  std::vector<uint64_t> write_set;
-
-  static void serialize(erpc::MsgBuffer &req_msgbuf) {
+  std::vector<struct Key> read_set;
+  std::vector<struct Key> write_set;
+  static void unpack_exe_request(erpc::MsgBuffer &req_msgbuf) {
     uint8_t *buf = req_msgbuf.buf_;
-    // memcpy(buf, &txn_id, 8);
-    // buf += 8;
-    // uint32_t read_set_size = read_set.size();
-    // memcpy(buf, &read_set_size, 4);
-    // buf += 4;
-    // for (int i = 0; i <) memcpy(buf, &txn_id, 8);
-  }
-
-  static void unpack(erpc::MsgBuffer &req_msgbuf) {
-    // uint8_t *buf = req_msgbuf.buf_;
-    // memcpy(, txn_id)
+    memcpy(&txn_id, buf, 8);
+    buf += 8;
+    int read_set_size = 0;
+    memcpy(&read_set_size, buf, 4);
+    buf += 4;
+    auto len = sizeof(struct Key);
+    for (int i = 0; i < read_set_size; i++) {
+      struct Key key;
+      memcpy(&key, buf, len);
+      read_set.push_back(key);
+      buf += len;
+    }
+    int write_set_size = 0;
+    memcpy(&write_set_size, buf, 4);
+    buf += 4;
+    for (int i = 0; i < write_set_size; i++) {
+      struct Key key;
+      memcpy(&key, buf, len);
+      write_set.push_back(key);
+      buf += len;
+    }
   }
 };
 
@@ -38,7 +56,24 @@ class ExecutionRes {
   uint64_t txn_id;
   std::vector<uint64_t> read_set;
   bool success;
+
+  static void unpack_exe_response(erpc::MsgBuffer &req_msgbuf) {
+    uint8_t *buf = req_msgbuf.buf_;
+    memcpy(&txn_id, buf, 8);
+    buf += 8;
+  }
 };
+
+static void serialize_exe_response(erpc::MsgBuffer &req_msgbuf,
+                                   ExecutionRes *request) {
+  uint8_t *buf = req_msgbuf.buf_;
+  // memcpy(buf, &txn_id, 8);
+  // buf += 8;
+  // uint32_t read_set_size = read_set.size();
+  // memcpy(buf, &read_set_size, 4);
+  // buf += 4;
+  // for (int i = 0; i <) memcpy(buf, &txn_id, 8);
+}
 
 class ValidationRequest {
  public:
