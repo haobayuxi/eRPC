@@ -22,6 +22,7 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   auto req = new ExecutionRequest();
   unpack_exe_request(req_buff, req);
   printf("get a exe request txnid = %ld\n", req->txn_id);
+  printf("key = %ld\n", req->read_set[0].key);
   auto response = new ExecutionRes();
   response->txn_id = req->txn_id;
   //   get read data
