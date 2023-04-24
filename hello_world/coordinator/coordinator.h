@@ -53,8 +53,8 @@ class Coordinator {
   uint64_t txn_id;
   uint64_t start_ts;
   LocalTs *local_ts;
-  vector<DataItemPtr> read_only_set;
-  vector<DataItemPtr> read_write_set;
+  vector<DataItem *> read_only_set;
+  vector<DataItem *> read_write_set;
   int have_readed;
   int have_read_writed;
   int reply_num;

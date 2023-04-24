@@ -24,7 +24,6 @@ struct DataItem {
   uint64_t ts;
   uint8_t value[MAX_ITEM_SIZE];
 };
-using DataItemPtr = std::shared_ptr<DataItem>;
 
 class ExecutionRequest {
  public:
@@ -33,12 +32,11 @@ class ExecutionRequest {
   std::vector<Key> write_set;
 };
 
-void serialize_exe_request(const erpc::MsgBuffer *req_msgbuf,
-                           vector<DataItemPtr> *read_set,
-                           vector<DataItemPtr> *write_set);
+void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
+                           vector<DataItem *> *read_set,
+                           vector<DataItem *> *write_set);
 
-void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
-                        ExecutionRequest *request);
+void unpack_exe_request(erpc::MsgBuffer *req_msgbuf, ExecutionRequest *request);
 
 class ExecutionRes {
  public:
@@ -47,7 +45,7 @@ class ExecutionRes {
   std::vector<DataItem> read_set;
 };
 
-void serialize_exe_response(const erpc::MsgBuffer *req_msgbuf,
+void serialize_exe_response(erpc::MsgBuffer *req_msgbuf,
                             ExecutionRes *response);
 
 void unpack_exe_response(erpc::MsgBuffer &req_msgbuf, ExecutionRes *response);
