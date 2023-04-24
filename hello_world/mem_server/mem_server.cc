@@ -15,7 +15,7 @@ void run_server(MemServer *s, erpc::Nexus *nexus) {
 
 void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   auto *server = static_cast<MemServer *>(_handler);
-  erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
+  const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
   //   get request
   auto req = new ExecutionRequest();
