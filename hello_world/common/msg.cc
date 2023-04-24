@@ -1,9 +1,9 @@
 
 #include "msg.h"
 
-void serialize_exe_response(const erpc::MsgBuffer *req_msgbuf,
-                            vector<DataItem> *read_set,
-                            vector<DataItem> *write_set, uint64_t txn_id) {
+void serialize_exe_request(const erpc::MsgBuffer *req_msgbuf,
+                           vector<DataItem> *read_set,
+                           vector<DataItem> *write_set, uint64_t txn_id) {
   // resize
 
   uint8_t *buf = req_msgbuf->buf_;
@@ -65,7 +65,7 @@ void serialize_exe_response(const erpc::MsgBuffer *req_msgbuf,
   memcpy(buf, &response->success, 1);
 }
 
-void unpack_exe_response(erpc::MsgBuffer &req_msgbuf, ExecutionRes *response) {
+void unpack_exe_response(erpc::MsgBuffer *req_msgbuf, ExecutionRes *response) {
   uint8_t *buf = req_msgbuf->buf_;
   memcpy(&response->txn_id, buf, 8);
   buf += 8;
