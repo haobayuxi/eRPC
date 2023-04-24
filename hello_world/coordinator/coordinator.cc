@@ -31,7 +31,7 @@ void handle_execute_resp(void *_context, void *) {
   printf("recv a response\n");
   auto response = new ExecutionRes();
   unpack_exe_response(&c->resp, response);
-  printf("txnid = %ld %d, success = %s\n", response->txn_id,
+  printf("txnid = %ld %d, success = %d\n", response->txn_id,
          response->read_set.size(), response->success);
   //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
   //   cont_func,)
