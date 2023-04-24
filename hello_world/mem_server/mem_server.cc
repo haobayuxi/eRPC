@@ -43,9 +43,9 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
       response->success = true;
     }
   }
-  printf("")
-      // serialize reponse
-      erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
+  printf("response read set size = %d\n", response->read_set.size());
+  // serialize reponse
+  erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
   serialize_exe_response(&resp, response);
   // insert into wait list
 
