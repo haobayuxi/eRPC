@@ -59,15 +59,15 @@ class ExecutionRes {
   std::vector<uint64_t> read_set;
   bool success;
 
-  static void unpack_exe_response(erpc::MsgBuffer &req_msgbuf) {
+  void unpack_exe_response(erpc::MsgBuffer &req_msgbuf) {
     uint8_t *buf = req_msgbuf.buf_;
     memcpy(&txn_id, buf, 8);
     buf += 8;
   }
 };
 
-static void serialize_exe_response(erpc::MsgBuffer &req_msgbuf,
-                                   ExecutionRes *request) {
+void serialize_exe_response(erpc::MsgBuffer &req_msgbuf,
+                            ExecutionRes *request) {
   uint8_t *buf = req_msgbuf.buf_;
   // memcpy(buf, &txn_id, 8);
   // buf += 8;
