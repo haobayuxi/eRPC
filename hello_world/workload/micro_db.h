@@ -1,3 +1,5 @@
+#ifndef MICRODB_H
+#define MICRODB_H
 #include <string.h>
 
 #include <unordered_map>
@@ -86,3 +88,5 @@ class Micro_Db {
     return true;
   }
 };
+
+#endif

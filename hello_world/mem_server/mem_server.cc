@@ -67,7 +67,7 @@ void handle_abort(erpc::ReqHandle *req_handle, void *_handler) {
   auto *c = static_cast<MemServer *>(_handler);
 }
 
-MemServer::MemServer(size_t _thread_id, DataStore *store_) {
+MemServer::MemServer(size_t _thread_id, Micro_Db *store_) {
   thread_id = _thread_id;
   store = store_;
   // init data store
