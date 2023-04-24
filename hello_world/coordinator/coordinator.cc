@@ -28,6 +28,7 @@ void cont_func(void *_context, void *_session) {
 
 void handle_execute_resp(void *_context, void *) {
   auto *c = static_cast<Coordinator *>(_context);
+  printf("recv a response\n");
   auto response = new ExecutionRes();
   unpack_exe_response(&c->resp, response);
   printf("txnid = %ld %d, success = %s\n", response->txn_id,

@@ -72,6 +72,7 @@ void unpack_exe_response(erpc::MsgBuffer *req_msgbuf, ExecutionRes *response) {
   int read_set_size = 0;
   memcpy(&read_set_size, buf, 4);
   buf += 4;
+  printf("recv read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     struct DataItem item;
     memcpy(&item, buf, DataItemSize);
