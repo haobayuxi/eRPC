@@ -25,7 +25,7 @@ void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
   }
 }
 
-void unpack_exe_request(erpc::MsgBuffer *req_msgbuf,
+void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
                         ExecutionRequest *request) {
   uint8_t *buf = req_msgbuf->buf_;
   memcpy(&request->txn_id, buf, 8);
