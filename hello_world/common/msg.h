@@ -9,6 +9,7 @@
 #define ValidationType 2
 #define CommitType 3
 
+#define KeySize 12
 struct Key {
   uint32_t table_id;
   uint64_t key;

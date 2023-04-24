@@ -8,13 +8,13 @@
 using namespace std;
 
 #define MicroTableSize 100000
-#define MicroDataSize 40
+#define MicroDataSize 30
 
 class MicroTuple {
  public:
   MicroTuple() { meta = TupleMeta(); }
   TupleMeta meta;
-  char data[40];
+  char data[30];
 };
 
 class Micro_Db : public DataStore {
@@ -39,7 +39,9 @@ class Micro_Db : public DataStore {
         item.data_size = MicroDataSize;
         memcpy(item.value, tuple->data, MicroDataSize);
         response->read_set.push_back(item);
+        tuple->meta.release_rw_lock();
       } else {
+        tuple->meta.release_rw_lock();
         return false;
       }
     }
@@ -47,19 +49,26 @@ class Micro_Db : public DataStore {
   }
   bool validate_read_set(ValidationRequest *request) {
     auto result = true;
-    for (auto first = request->read_set.begin();
-         first < request->read_set.end(); ++first) {
-      *first;
+    for (int i = 0; i < request->read_set.size(); i++) {
+      auto key = request->read_set[i].key;
+      auto tuple = data[key];
+      tuple->meta.get_read_lock();
+      if (tuple->meta.is_locked()) {
+        tuple->meta.release_rw_lock();
+        return false;
+      }
     }
     return result;
   }
   bool lock_write_set(ExecutionRequest *request) {
-    auto result = true;
-    for (auto first = request->write_set.begin();
-         first < request->write_set.end(); ++first) {
-      *first;
+    for (int i = 0; i < request->read_set.size(); i++) {
+      auto key = request->read_set[i].key;
+      auto tuple = data[key];
+      if (!tuple->meta.set_lock(request->txn_id)) {
+        return false;
+      }
     }
-    return result;
+    return true;
   }
   bool update_and_release_locks(CommitRequest *c) {
     for (auto first = c->write_set.begin(); first < c->write_set.end();

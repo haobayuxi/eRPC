@@ -1,9 +1,11 @@
 #include "common/common.h"
+#include "common/msg.h"
 #include "mem_server/mem_server.h"
 #include "unordered_map"
 #include "util/latency.h"
 #include "util/math_utils.h"
 #include "util/numautils.h"
+#include "workload/tatp_db.h"
 #include "workload/workload.h"
 
 using namespace std;
@@ -20,22 +22,11 @@ void reqs_handler(erpc::ReqHandle *req_handle, void *_handler) {
   c->rpc_->enqueue_response(req_handle, &resp);
 }
 
-struct Test {
-  int t;
-};
-
 int main() {
   std::string server_uri = kServerHostname + ":" + std::to_string(kUDPPort);
   erpc::Nexus nexus(server_uri);
 
-  struct Test t;
-  t.t = 100;
-  unordered_map<int, struct Test *> xx;
-  xx.insert(make_pair(1, &t));
-  auto f = xx[1];
-  f->t = 10;
-  auto d = xx[1];
-  printf("test %d", d->t);
+  printf(" size = %d", sizeof(struct SubscriberValue));
 
   // nexus.register_req_func(kReqType, reqs_handler);
   // size_t num_threads = 10;
