@@ -112,9 +112,11 @@ void unpack_exe_response(erpc::MsgBuffer *req_msgbuf, ExecutionRes *response) {
     struct DataItem item;
     // memcpy(&item, buf, DataItemSize);
     deserialize_DataItem(buf, &item);
+    printf("data item key = %ld\n", item.key.key);
     response->read_set.push_back(item);
     buf += 60;
   }
+  printf("data item done\n");
   memcpy(&response->success, buf, 1);
 }
 
