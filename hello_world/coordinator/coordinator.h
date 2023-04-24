@@ -50,7 +50,7 @@ class Coordinator {
   size_t start_tsc_;
 
   //   txn info
-  uint64_t t_id;
+  uint64_t txn_id;
   uint64_t start_ts;
   LocalTs *local_ts;
   vector<DataItemPtr> read_only_set;
@@ -67,9 +67,6 @@ class Coordinator {
   bool txn_validate();
   void txn_abort();
   void txn_commit();
-
-  // handle res
-  void handle_execute_resp(void *_context, void *_session);
 
   int num_sm_resps;
 
@@ -88,6 +85,8 @@ class Coordinator {
 };
 
 void run_coordinator(Coordinator *c, erpc::Nexus *nexus);
+
+void handle_execute_resp(void *_context, void *);
 
 // ALWAYS_INLINE
 // void Coordinator::AddToReadOnlySet(DataItemPtr item) {

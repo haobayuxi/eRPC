@@ -26,7 +26,7 @@ void cont_func(void *_context, void *_session) {
                            handle_execute_resp);
 }
 
-void Coordinator::handle_execute_resp(void *_context, void *) {
+void handle_execute_resp(void *_context, void *) {
   auto *c = static_cast<Coordinator *>(_context);
   auto response = new ExecutionRes();
   unpack_exe_response(&c->resp, response);
