@@ -50,6 +50,7 @@ class Coordinator {
   size_t start_tsc_;
 
   //   txn info
+  int txn_num;
   uint64_t txn_id;
   uint64_t start_ts;
   LocalTs *local_ts;

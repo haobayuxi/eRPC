@@ -34,8 +34,13 @@ void handle_execute_resp(void *_context, void *) {
       erpc::to_usec(erpc::rdtsc() - c->start_tsc_, c->rpc_->get_freq_ghz());
   printf("txnid = %ld %d, success = %d ,latency = %lf\n", response->txn_id,
          response->read_set.size(), response->success, req_lat_us);
-  //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
-  //   cont_func,)
+  c->txn_num += 1;
+  if (c->txn_num > 10) {
+    return;
+  }
+  int session_num = c->sessions[0][0];
+  c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
+                           handle_execute_resp, NULL);
 }
 
 // void Coordinator::handle_validate_res(void *_context, void *_session) {
@@ -64,6 +69,7 @@ void run_coordinator(Coordinator *c, erpc::Nexus *nexus) {
   c->start_tsc_ = erpc::rdtsc();
   int session_num = c->sessions[0][0];
   c->txn_id = 101;
+  c->txn_num = 0;
   auto item = new DataItem();
   item->key.key = 10;
   item->key.table_id = 2;
