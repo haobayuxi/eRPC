@@ -39,6 +39,7 @@ void handle_execute_resp(void *_context, void *) {
     return;
   }
   int session_num = c->sessions[0][0];
+  c->start_tsc_ = erpc::rdtsc();
   c->rpc_->enqueue_request(session_num, ExecutionType, &c->req, &c->resp,
                            handle_execute_resp, NULL);
 }
