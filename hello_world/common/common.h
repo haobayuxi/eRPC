@@ -3,7 +3,7 @@
 
 #include "rpc.h"
 
-#define Max_Msg_Size 1000
+#define Max_Msg_Size 10000
 
 static const std::string kServerHostname = "192.168.3.71";
 static const std::string kClientHostname = "192.168.3.72";
