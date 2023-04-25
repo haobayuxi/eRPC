@@ -127,6 +127,7 @@ void Coordinator::txn_begin() {
   switch (type) {
     case Yuxi: {
       // get local ts
+      start_ts = local_ts->get_local_ts();
       break;
     }
     default: {
@@ -151,6 +152,7 @@ bool Coordinator::txn_execute() {
 bool Coordinator::txn_validate() {
   switch (type) {
     case Yuxi: {
+      return true;
     }
     case Meerkat: {
       // broadcast to validate
