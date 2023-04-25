@@ -63,12 +63,10 @@ void unpack_exe_request(const erpc::MsgBuffer *req_msgbuf,
   int read_set_size = 0;
   memcpy(&read_set_size, buf, 4);
   buf += 4;
-  printf("unpack read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     struct Key key;
     memcpy(&key.table_id, buf, 4);
     memcpy(&key.key, buf + 4, 8);
-    printf("key = %ld\n", key.key);
     request->read_set.push_back(key);
     buf += KeySize;
   }
