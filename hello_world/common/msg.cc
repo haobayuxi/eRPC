@@ -1,29 +1,29 @@
 
 #include "msg.h"
 
-int serialize_DataItem(uint8_t *buf, DataItem *item) {
-  int size = 0;
-  memcpy(buf, &item->key.table_id, 4);
-  size += 4;
-  memcpy(buf + size, &item->key.key, 8);
-  size += 8;
-  memcpy(buf + size, &item->ts, 8);
-  size += 8;
-  memcpy(buf + size, item->value, 40);
-  size += 40;
-  return size;
-}
+// int serialize_DataItem(uint8_t *buf, DataItem *item) {
+//   int size = 0;
+//   memcpy(buf, &item->key.table_id, 4);
+//   size += 4;
+//   memcpy(buf + size, &item->key.key, 8);
+//   size += 8;
+//   memcpy(buf + size, &item->ts, 8);
+//   size += 8;
+//   memcpy(buf + size, item->value, 40);
+//   size += 40;
+//   return size;
+// }
 
-void deserialize_DataItem(uint8_t *buf, DataItem *item) {
-  int size = 0;
-  memcpy(&item->key.table_id, buf, 4);
-  size += 4;
-  memcpy(&item->key.key, buf + size, 8);
-  size += 8;
-  memcpy(&item->ts, buf + size, 8);
-  size += 8;
-  memcpy(item->value, buf + size, 40);
-}
+// void deserialize_DataItem(uint8_t *buf, DataItem *item) {
+//   int size = 0;
+//   memcpy(&item->key.table_id, buf, 4);
+//   size += 4;
+//   memcpy(&item->key.key, buf + size, 8);
+//   size += 8;
+//   memcpy(&item->ts, buf + size, 8);
+//   size += 8;
+//   memcpy(item->value, buf + size, 40);
+// }
 
 void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
                            vector<DataItem *> *read_set,
@@ -36,7 +36,6 @@ void serialize_exe_request(erpc::MsgBuffer *req_msgbuf,
   int read_set_size = read_set->size();
   memcpy(buf, &read_set_size, 4);
   buf += 4;
-  printf("serialize read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     memcpy(buf, &read_set->at(i)->key.table_id, 4);
     memcpy(buf + 4, &read_set->at(i)->key.key, 8);
@@ -95,7 +94,7 @@ void serialize_exe_response(erpc::MsgBuffer *req_msgbuf,
   for (int i = 0; i < read_set_size; i++) {
     // auto size = serialize_DataItem(buf, &response->read_set[i]);
     memcpy(buf, &response->read_set[i], DataItemSize);
-    buf += 60;
+    buf += DataItemSize;
   }
   memcpy(buf, &response->success, 1);
 }
@@ -107,16 +106,13 @@ void unpack_exe_response(erpc::MsgBuffer *req_msgbuf, ExecutionRes *response) {
   int read_set_size = 0;
   memcpy(&read_set_size, buf, 4);
   buf += 4;
-  printf("recv read set size = %d\n", read_set_size);
   for (int i = 0; i < read_set_size; i++) {
     struct DataItem item;
     memcpy(&item, buf, DataItemSize);
-    // deserialize_DataItem(buf, &item);
-    printf("data item key = %ld\n", item.key.key);
+    // printf("data item key = %ld\n", item.key.key);
     response->read_set.push_back(item);
-    buf += 60;
+    buf += DataItemSize;
   }
-  printf("data item done\n");
   memcpy(&response->success, buf, 1);
 }
 

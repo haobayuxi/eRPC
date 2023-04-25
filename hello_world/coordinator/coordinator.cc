@@ -28,11 +28,12 @@ void cont_func(void *_context, void *_session) {
 
 void handle_execute_resp(void *_context, void *) {
   auto *c = static_cast<Coordinator *>(_context);
-  printf("recv a response\n");
   auto response = new ExecutionRes();
   unpack_exe_response(&c->resp, response);
-  printf("txnid = %ld %d, success = %d\n", response->txn_id,
-         response->read_set.size(), response->success);
+  const double req_lat_us =
+      erpc::to_usec(erpc::rdtsc() - c->start_tsc_, c->rpc_->get_freq_ghz());
+  printf("txnid = %ld %d, success = %d ,latency = %lf\n", response->txn_id,
+         response->read_set.size(), response->success, req_lat_us);
   //   c->rpc_->enqueue_request(session_num, kReqType, &c->req, &c->resp,
   //   cont_func,)
 }

@@ -18,16 +18,12 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
   const erpc::MsgBuffer *req_buff = req_handle->get_req_msgbuf();
   size_t req_size = req_buff->get_data_size();
   //   get request
-  printf("get a msg\n");
   auto req = new ExecutionRequest();
   unpack_exe_request(req_buff, req);
-  printf("get a exe request txnid = %ld\n", req->txn_id);
-  printf("key = %ld\n", req->read_set[0].key);
   auto response = new ExecutionRes();
   response->txn_id = req->txn_id;
   //   get read data
   auto success = server->store->get_read_set(req, response);
-  printf("read success = %d, size = %d\n", success, response->read_set.size());
   // lock write data
   if (!success) {
     // reply fail
@@ -45,8 +41,8 @@ void handle_execute(erpc::ReqHandle *req_handle, void *_handler) {
       response->success = true;
     }
   }
-  printf("response read set size = %d, success = %d\n",
-         response->read_set.size(), response->success);
+  // printf("response read set size = %d, success = %d\n",
+  //        response->read_set.size(), response->success);
   // serialize reponse
   erpc::MsgBuffer &resp = req_handle->pre_resp_msgbuf_;
   serialize_exe_response(&resp, response);
